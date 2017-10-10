@@ -1,0 +1,5 @@
+alias: parent
+password: hi@voova1
+
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore parent-release.keystore android-armv7-release-unsigned.apk parent
+zipalign -v 4 android-armv7-release-unsigned.apk parent.apk

@@ -1,0 +1,153 @@
+<!--
+  Generated template for the ChildrenPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar>
+        <button ion-button menuToggle icon-only>
+          <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title>Children</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <!-- <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content>
+        </ion-refresher-content>
+    </ion-refresher> -->
+    <ion-grid class="padding-0" *ngFor="let items of passengerBySchool">
+        <!-- <ion-row justify-content-start class="schoolLabel padding-left-10">
+            <ion-icon ios="ios-school" md="ios-school" class="margin-right-10"></ion-icon>
+            <div>{{items.school_name}}</div>
+        </ion-row> -->
+        <ion-grid class="padding-0" *ngFor="let item of items.passengers;let i = index">
+            <ion-row [@fadeInAnimation]="" class="childList" (click)="toggleDetail(i)">
+                <ion-col class="text-align-right">
+                    <ion-icon ios="ios-person" md="ios-person"></ion-icon>
+                </ion-col>
+                <ion-col class="text-align-center">
+                    <div>{{item.first_name}} {{item.surname}}</div>
+                </ion-col>
+                <ion-col class="text-align-right">
+                    <ion-icon class="margin-right-10" [ios]="arrowIcon[i]" [md]="arrowIcon[i]"></ion-icon>
+                </ion-col>
+            </ion-row>
+            <ion-row [@fadeInAnimation]="" *ngFor="let route of item.routeToday;let j = index">
+                <ion-grid class="padding-0 journey-box" *ngIf="showPassengerRoute[i]" (click)="goToTracking(route,item)">
+                    <ion-row justify-content-between [ngClass]="{
+                'normal-text':true ,
+                'current-movement': route.peroid == 'current',
+                'previous-movement': route.peroid == 'previous',
+                'next-movement': route.peroid == 'next'
+              }">
+                        <div>
+                            <ion-icon ios="md-bus" md="md-bus"></ion-icon>
+                            <span>{{peroidText(route.peroid)}}</span>
+                        </div>
+                        <div>
+                            <ion-icon ios="ios-time-outline" md="ios-time-outline"></ion-icon>
+                            <span>{{route.date_today}}</span>
+                        </div>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col col-4 class="silver-box">
+                            <ion-icon ios="ios-pin" md="md-pin"></ion-icon>
+                            <span>Pick Up</span>
+                        </ion-col>
+                        <ion-col col-8>
+                            <span>{{route.collection_address.address}}</span>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="wrongBoarding(route.collection_address.passenger_log)">
+                        <ion-grid class="padding-0">
+                            <ion-row>
+                                <ion-col class="padding-0">
+                                    <div class="red-box">Wrong Pick Up</div>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col class="padding-0">
+                                    <div class="red-text padding-10">
+                                        {{showWrongPickUp(route.collection_address)}}
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col col-4 class="silver-box">
+                            <ion-icon ios="ios-pin" md="md-pin"></ion-icon>
+                            <span>Drop Off</span>
+                        </ion-col>
+                        <ion-col col-8>
+                            <span>{{route.destination_address.address}}</span>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="wrongAlighting(route.destination_address.passenger_log)">
+                        <ion-grid class="padding-0">
+                            <ion-row>
+                                <ion-col class="padding-0">
+                                    <div class="red-box">Wrong Drop Off</div>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col class="padding-0">
+                                    <div class="red-text padding-10">
+                                        {{showWrongDropOff(route.destination_address)}}
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-row>
+                    <ion-row justify-content-between class="silver-box">
+                        <div>
+                            <span>Scheduled Boarding Time</span>
+                        </div>
+                        <div>
+                            <ion-icon ios="ios-time-outline" md="ios-time-outline"></ion-icon>
+                            <span>{{route.collection_address.time_start}}</span>
+                        </div>
+                    </ion-row>
+                    <ion-row justify-content-between [ngClass]="{'red-text':wrongBoarding(route.collection_address.passenger_log),'silver-box':true}" *ngIf="checkRouteLog(route.collection_address.passenger_log , 1)">
+                        <div>
+                            <span>Actual Boarding Time</span>
+                        </div>
+                        <div>
+                            <ion-icon ios="ios-time-outline" md="ios-time-outline"></ion-icon>
+                            <span>{{showActualTime(route.collection_address.passenger_log)}}</span>
+                        </div>
+                    </ion-row>
+                    <ion-row justify-content-between class="silver-box">
+                        <div>
+                            <span>Scheduled Alighting Time</span>
+                        </div>
+                        <div>
+                            <ion-icon ios="ios-time-outline" md="ios-time-outline"></ion-icon>
+                            <span>{{route.destination_address.time_end}}</span>
+                        </div>
+                    </ion-row>
+                    <ion-row justify-content-between [ngClass]="{'red-text':wrongAlighting(route.destination_address.passenger_log),'silver-box':true}" *ngIf="checkRouteLog(route.destination_address.passenger_log , 0)">
+                        <div>
+                            <span>Actual Alighting Time</span>
+                        </div>
+                        <div>
+                            <ion-icon ios="ios-time-outline" md="ios-time-outline"></ion-icon>
+                            <span>{{showAlightingTime(route.destination_address.passenger_log)}}</span>
+                        </div>
+                    </ion-row>
+                </ion-grid>
+            </ion-row>
+        </ion-grid>
+    </ion-grid>
+</ion-content>
+
+
+<!-- <ng-template #loaderBox>
+    <div>Loading...</div>
+</ng-template> -->

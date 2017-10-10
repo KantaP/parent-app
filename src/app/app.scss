@@ -1,0 +1,240 @@
+// http://ionicframework.com/docs/theming/
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+button {
+    border-radius: 0px;
+}
+
+.input-box {
+    border: 1px solid #ccc;
+    padding: 0px 18px;
+    background: #fff;
+    color: #ccc;
+    font-size: 1.5em;
+}
+
+.normal-text {
+    color: map-get($colors, 'light');
+}
+
+.main-bg {
+    background-color: map-get($colors, 'primary');
+    background-image: url('../assets/img/bg-old.png');
+    background-size: contain;
+}
+
+.main-logo {
+    width: 50%;
+    height: 10%;
+}
+
+.contact-logo {
+    width: 80%;
+    height: 10%;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0px;
+}
+
+.circle-icon {
+    background: map-get($colors, 'light');
+    border-radius: 50%;
+    width: 15px;
+    text-align: center;
+    color: map-get($colors, 'primary');
+    font-weight: bold;
+}
+
+$margin-slug: margin;
+$padding-slug: padding;
+$top-slug: top;
+$bottom-slug: bottom;
+$right-slug: right;
+$left-slug: left;
+@for $i from 0 through 100 {
+    .#{$margin-slug}-#{$top-slug}-#{$i} {
+        margin-top: 0px + $i;
+    }
+    .#{$margin-slug}-#{$bottom-slug}-#{$i} {
+        margin-bottom: 0px + $i;
+    }
+    .#{$margin-slug}-#{$left-slug}-#{$i} {
+        margin-left: 0px + $i;
+    }
+    .#{$margin-slug}-#{$right-slug}-#{$i} {
+        margin-right: 0px + $i;
+    }
+    .#{$margin-slug}-#{$i} {
+        margin: 0px + $i;
+    }
+    .font-size-#{$i} {
+        font-size: 0px + $i;
+    }
+    .font-size-#{$i}-vw {
+        font-size: 0vw + $i;
+    }
+    .#{$padding-slug}-#{$top-slug}-#{$i} {
+        padding-top: 0px + $i;
+    }
+    .#{$padding-slug}-#{$bottom-slug}-#{$i} {
+        padding-bottom: 0px + $i;
+    }
+    .#{$padding-slug}-#{$left-slug}-#{$i} {
+        padding-left: 0px + $i;
+    }
+    .#{$padding-slug}-#{$right-slug}-#{$i} {
+        padding-right: 0px + $i;
+    }
+    .#{$padding-slug}-#{$i} {
+        padding: 0px + $i;
+    }
+}
+
+.text-align-center {
+    text-align: map-get($textAligns, 'center');
+}
+
+.text-align-left {
+    text-align: map-get($textAligns, 'left');
+}
+
+.text-align-right {
+    text-align: map-get($textAligns, 'right');
+}
+
+.alert-title {
+    color: map-get($colors, 'light');
+}
+
+.closeImg {
+    background-image: url('../assets/img/close.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 16px;
+    height: 16px;
+}
+
+.checkImg {
+    background-image: url('../assets/img/check.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 16px;
+    height: 16px;
+}
+
+.pull-left {
+    float: left;
+}
+
+.menu-inner .content.content-md,
+.menu-inner .content.content-ios {
+    background: #000;
+}
+
+.menu-inner .list.list-md .item-md,
+.menu-inner .list.list-ios .item-ios {
+    background: #000;
+    color: #fff;
+    border-bottom: 1px solid #333;
+    & .item-inner {
+        border-bottom: 0px;
+        & .input-wrapper {
+            padding-left: 20px;
+        }
+    }
+}
+
+.toolbar-md ion-title {
+    left: 0;
+    top: 0;
+    padding: 0 90px 1px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    pointer-events: none;
+    text-align: center;
+}
+
+.childList {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background: #749fd2;
+    color: #fff;
+    font-size: 1.2em;
+    border-bottom: 1px solid #0071bc;
+}
+
+.schoolLabel {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: #eee;
+    color: map-get($colors, primary);
+    font-size: 1.1em;
+    border-bottom: 1px solid #eee;
+}
+
+.journey-box {
+    font-size: 1.2em;
+}
+
+.current-movement {
+    background-color: #75a72e;
+    padding: 10px;
+}
+
+.silver-box {
+    background: #eee;
+    padding: 10px;
+    color: #000;
+}
+
+.dark-box {
+    background: #000;
+    padding: 10px;
+    color: #fff;
+}
+
+.dark-gray-box {
+    background: #555;
+    color: #fff;
+}
+
+.previous-movement,
+.next-movement {
+    background: #cdd9ef;
+    padding: 10px;
+    color: #000;
+}
+
+.red-box {
+    padding: 10px;
+    background: red;
+    color: #fff;
+}
+
+.red-text {
+    color: red;
+}
+
+.passenger-box {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: #000;
+    color: #fff;
+    font-size: 1.2em;
+}

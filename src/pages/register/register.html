@@ -1,0 +1,40 @@
+<!--
+  Generated template for the RegisterPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header *ngIf="showBackButton">
+
+    <ion-navbar>
+        <!-- <ion-title>register</ion-title> -->
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="main-bg">
+    <ion-grid>
+        <ion-row justify-content-center>
+            <img src="assets/img/logo.png" class="main-logo" />
+        </ion-row>
+        <form [formGroup]="registerForm" novalidate>
+            <ion-row justify-content-center class="margin-top-15">
+                <ion-input class="input-box" type="email" placeholder="Email" formControlName="email"></ion-input>
+            </ion-row>
+            <ion-row justify-content-center class="margin-top-10">
+                <button ion-button block color="sugar" (click)="nextStep()">Next</button>
+            </ion-row>
+            <ion-row justify-content-center class="margin-top-5" *ngIf="canSkipRegistered">
+                <button ion-button block color="sugar" (click)="skipRegister()">Skip</button>
+            </ion-row>
+        </form>
+    </ion-grid>
+    <ion-grid class="footer" ion-fixed>
+        <ion-row justify-content-center>
+            <div class="normal-text text-align-center">
+                <span>Please enter the email address you have registered with your company and press next to continue</span>
+            </div>
+        </ion-row>
+    </ion-grid>
+</ion-content>

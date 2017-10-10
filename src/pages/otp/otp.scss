@@ -1,0 +1,9 @@
+page-otp {
+    .input-otp {
+        border-bottom: 1px solid #fff;
+        color: #fff;
+        & input {
+            text-align: center;
+        }
+    }
+}

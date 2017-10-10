@@ -1,0 +1,136 @@
+<!--
+  Generated template for the TrackingPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>Tracking</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <div #map style="height:100%;width:100%;"></div>
+    <ion-grid [@fadeInAnimation]="" class="padding-0" style="position:absolute;top:0px">
+        <ion-row justify-content-between class="passenger-box" (click)="toggleShowJourney()">
+            <ion-col class="text-align-right">
+                <ion-icon ios="ios-person" md="ios-person"></ion-icon>
+            </ion-col>
+            <ion-col class="text-align-center">
+                <div>{{passenger.first_name}} {{passenger.surname}}</div>
+            </ion-col>
+            <ion-col class="text-align-right">
+                <ion-icon class="margin-right-10" [ios]="arrowIcon" [md]="arrowIcon"></ion-icon>
+            </ion-col>
+        </ion-row>
+        <ion-row [@fadeInAnimation]="" *ngIf="showJourney">
+            <ion-grid class="padding-0 journey-box" *ngFor="let route of routes;let j = index">
+                <ion-row justify-content-between [ngClass]="{
+                  'normal-text':true ,
+                  'current-movement': route.peroid == 'current',
+                  'previous-movement': route.peroid == 'previous',
+                  'next-movement': route.peroid == 'next'
+                }">
+                    <div>
+                        <ion-icon ios="md-bus" md="md-bus"></ion-icon>
+                        <span>{{peroidText(route.peroid)}}</span>
+                    </div>
+                    <div>
+                        <ion-icon ios="ios-time-outline" md="ios-time-outline"></ion-icon>
+                        <span>{{route.date_today}}</span>
+                    </div>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-4 class="dark-box">
+                        <ion-icon ios="ios-pin" md="md-pin"></ion-icon>
+                        <span>Pick Up</span>
+                    </ion-col>
+                    <ion-col col-8 class="dark-gray-box">
+                        <span>{{route.collection_address.address}}</span>
+                    </ion-col>
+                </ion-row>
+                <ion-row *ngIf="wrongBoarding(route.collection_address.passenger_log)">
+                    <ion-grid class="padding-0">
+                        <ion-row>
+                            <ion-col col-4 class="padding-0 dark-box">
+                                <div class="red-box">Wrong Pick Up</div>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col col-8 class="padding-0 dark-gray-box">
+                                <div class="red-text padding-10">
+                                    {{showWrongPickUp(route.collection_address)}}
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-4 class="dark-box">
+                        <ion-icon ios="ios-pin" md="md-pin"></ion-icon>
+                        <span>Drop Off</span>
+                    </ion-col>
+                    <ion-col col-8 class="dark-gray-box">
+                        <span>{{route.destination_address.address}}</span>
+                    </ion-col>
+                </ion-row>
+                <ion-row *ngIf="wrongAlighting(route.destination_address.passenger_log)">
+                    <ion-grid class="padding-0">
+                        <ion-row>
+                            <ion-col col-4 class="padding-0 dark-box">
+                                <div class="red-box">Wrong Drop Off</div>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col col-8 class="padding-0 dark-gray-box">
+                                <div class="red-text padding-10">
+                                    {{showWrongDropOff(route.destination_address)}}
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-row>
+                <ion-row justify-content-between class="dark-box">
+                    <div>
+                        <span>Scheduled Boarding Time</span>
+                    </div>
+                    <div>
+                        <ion-icon ios="ios-time-outline" md="ios-time-outline"></ion-icon>
+                        <span>{{route.collection_address.time_start}}</span>
+                    </div>
+                </ion-row>
+                <ion-row justify-content-between [ngClass]="{'red-text':wrongBoarding(route.collection_address.passenger_log),'dark-box':true}" *ngIf="checkRouteLog(route.collection_address.passenger_log , 1)">
+                    <div>
+                        <span>Actual Boarding Time</span>
+                    </div>
+                    <div>
+                        <ion-icon ios="ios-time-outline" md="ios-time-outline"></ion-icon>
+                        <span>{{showActualTime(route.collection_address.passenger_log)}}</span>
+                    </div>
+                </ion-row>
+                <ion-row justify-content-between class="dark-box">
+                    <div>
+                        <span>Scheduled Alighting Time</span>
+                    </div>
+                    <div>
+                        <ion-icon ios="ios-time-outline" md="ios-time-outline"></ion-icon>
+                        <span>{{route.destination_address.time_end}}</span>
+                    </div>
+                </ion-row>
+                <ion-row justify-content-between [ngClass]="{'red-text':wrongAlighting(route.destination_address.passenger_log),'silver-box':true}" *ngIf="checkRouteLog(route.destination_address.passenger_log , 0)">
+                    <div>
+                        <span>Actual Alighting Time</span>
+                    </div>
+                    <div>
+                        <ion-icon ios="ios-time-outline" md="ios-time-outline"></ion-icon>
+                        <span>{{showAlightingTime(route.destination_address.passenger_log)}}</span>
+                    </div>
+                </ion-row>
+            </ion-grid>
+        </ion-row>
+    </ion-grid>
+</ion-content>

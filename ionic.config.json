@@ -1,0 +1,8 @@
+{
+  "name": "parent-app-journey",
+  "app_id": "38910cff",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
