@@ -12,8 +12,8 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-import { AngularFireModule } from 'angularfire2';
-import 'firebase';
+// import { AngularFireModule } from 'angularfire2';
+// import 'firebase';
 import { CloudModule , CloudSettings } from '@ionic/cloud-angular';
 
 import { MyApp } from './app.component';
@@ -50,11 +50,11 @@ const client = new ApolloClient({
   networkInterface
 })
 
-const firebase = {
-  apiKey: 'AIzaSyD7B3zdaQ4G63tS2Xny7gFts8Yi-stNh-w',
-  projectId: 'driverapp-1470129684507',
-  messagingSenderId: '25666590030'
-}
+// const firebase = {
+//   apiKey: 'AIzaSyD7B3zdaQ4G63tS2Xny7gFts8Yi-stNh-w',
+//   projectId: 'driverapp-1470129684507',
+//   messagingSenderId: '25666590030'
+// }
 
 const cloudSetting: CloudSettings = {
   core:{
@@ -101,7 +101,7 @@ export function provideClient(): ApolloClient {
     }),
     BrowserAnimationsModule,
     CloudModule.forRoot(cloudSetting),
-    AngularFireModule.initializeApp(firebase)
+    // AngularFireModule.initializeApp(firebase)
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { AlertController , LoadingController} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import axios from 'axios';
@@ -22,7 +21,7 @@ export class UtilitiesProvider {
 
   private alertItem : any = null
   private loaderItem: any = null
-  constructor(public http: Http , private alert: AlertController, private loader: LoadingController, private storage: Storage ) {
+  constructor(private alert: AlertController, private loader: LoadingController, private storage: Storage ) {
 
   }
 
