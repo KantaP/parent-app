@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
@@ -51,6 +52,9 @@ export class AfterSplashScreenPage {
                     this._util.alertMessage('Authenticate','Your password changed. Please contact your company for assistance.')
                     this.navCtrl.setRoot(LoginPage)
                   }
+                })
+                .catch(()=>{
+                  this.navCtrl.setRoot(LoginPage)
                 })
               }else {
                 this.navCtrl.setRoot(LoginPage)

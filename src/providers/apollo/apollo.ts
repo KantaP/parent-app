@@ -224,12 +224,11 @@ export class ApolloProvider {
   //   })
   // }
 
-  setPushToken(email: string, push_token: string) {
+  setPushToken(push_token: string) {
     return this.apollo.mutate({
       mutation: setPushToken,
       variables: {
         input : {
-          email,
           push_token
         }
       }

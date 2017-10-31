@@ -6,7 +6,10 @@ import { StateProvider } from '../../providers/state/state';
 import { ApolloProvider } from '../../providers/apollo/apollo';
 import { HomePage } from '../home/home';
 import { RegisterPage } from '../register/register';
-import { Push , PushToken, IPushMessage }from '@ionic/cloud-angular';
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import { BackgroundMode } from '@ionic-native/background-mode';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
 declare var globalToken;
 /**
  * Generated class for the LoginPage page.
@@ -25,7 +28,8 @@ export class LoginPage {
   loginForm: FormGroup
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private _fb: FormBuilder, private _util: UtilitiesProvider, private _state: StateProvider ,
-    private push: Push, private platform: Platform, private _apollo: ApolloProvider) {
+    private push: Push, private platform: Platform, private _apollo: ApolloProvider,
+    private backgroundMode: BackgroundMode , private transfer: FileTransfer, private file: File) {
     this.loginForm = this._fb.group({
       email: ['',Validators.compose([
         Validators.pattern(/^(([^<>()\[\]\\.,;:\s@]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
@@ -36,7 +40,30 @@ export class LoginPage {
   }
 
   ionViewWillEnter() {
-    if(this.platform.is('cordova')) {this.push.unregister()}
+    // if(this.platform.is('cordova')) {this.push.unregister()}
+  }
+
+  registerFCMToken() {
+    const options: PushOptions = {
+      android: {},
+      ios: {
+        alert: 'true',
+        badge: false,
+        sound: 'true'
+      },
+      windows: {}
+    };
+    const pushObject: PushObject = this.push.init(options);
+
+    pushObject.on('registration').subscribe((data: any) => {
+      console.log('device token -> ' + data.registrationId);
+      this._apollo.setPushToken(data.registrationId)
+      .subscribe((res)=>{
+        this._util.loaded()
+        this.navCtrl.setRoot(HomePage)
+      })
+      //TODO - send device token to server
+    });
   }
 
   login() {
@@ -44,29 +71,18 @@ export class LoginPage {
     this._util.loading('')
     this._util.signIn(email.value,password.value)
     .then((response)=>{
-      this._util.loaded()
       if(response.status == 200) {
         this._state.setState(response.data.user)
         var userProfile = Object.assign({},response.data.user,{password: password.value})
         this._util.setStorage('userProfile',userProfile)
         globalToken = response.data.token
         if(this.platform.is('cordova')) {
-          this.push.register().then((t: PushToken)=>{
-            return this.push.saveToken(t)
-          })
-          .then((t: PushToken)=>{
-            this.push.rx.notification().subscribe((pushData: IPushMessage)=>{
-              alert(pushData.text)
-            })
-            this._apollo.setPushToken(email.value,t.token)
-            .subscribe((res)=>{
-              this.navCtrl.setRoot(HomePage)
-            })
-          })
-          .catch((err)=>{
-            alert(err.message)
+          this.registerFCMToken()
+          userProfile.companiesLogo.forEach((item)=>{
+            console.log(item)
           })
         }else{
+          this._util.loaded()
           this.navCtrl.setRoot(HomePage)
         }
       }else{
@@ -77,6 +93,17 @@ export class LoginPage {
       this._util.alertMessage('Failed login',err.message)
       this._util.loaded()
     })
+  }
+
+  download(urlImage, fileName) {
+    const fileTransfer: FileTransferObject = this.transfer.create();
+    var url = encodeURI(urlImage);
+    fileTransfer.download(url, this.file.dataDirectory + fileName)
+      .then((entry)=>{
+        console.log('download complete: ' + entry.toURL());
+      }, (error) => {
+        console.log("error", "Error file transfert");
+   });
   }
 
   register() {
