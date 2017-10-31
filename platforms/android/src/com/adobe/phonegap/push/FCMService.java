@@ -19,8 +19,11 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Paint;
 import android.graphics.Canvas;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.WearableExtender;
 import android.support.v4.app.RemoteInput;
@@ -37,6 +40,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -50,26 +54,84 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
 
     private static final String LOG_TAG = "Push_FCMService";
     private static HashMap<Integer, ArrayList<String>> messageMap = new HashMap<Integer, ArrayList<String>>();
+    private static ArrayList<NotifyModel> notifyModel = new ArrayList<NotifyModel>();
+
 
     public void setNotification(int notId, String message){
-        ArrayList<String> messageList = messageMap.get(notId);
-        if(messageList == null) {
-            messageList = new ArrayList<String>();
-            messageMap.put(notId, messageList);
-        }
+          ArrayList<String> messageList = messageMap.get(notId);
+          if(messageList == null) {
+              messageList = new ArrayList<String>();
+              messageMap.put(notId, messageList);
+          }
 
-        if(message.isEmpty()){
-            messageList.clear();
-        }else{
-            messageList.add(message);
-        }
+          if(message.isEmpty()){
+              messageList.clear();
+          }else{
+              messageList.add(message);
+          }
     }
 
     @Override
     public void onMessageReceived(RemoteMessage message){
 
+
+      NotifyModel model = new NotifyModel();
+
+      Ringtone ringTone = RingtoneManager.getRingtone(this, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+      ringTone.play();
+
+      for (String key : message.getData().keySet()){
+        String value = message.getData().get(key);
+
+        if(value!=null) {
+          if (key.equals("title")) {
+
+            model.setTitle(value);
+          }
+          if (key.equals("text")) {
+            model.setMessage(value);
+          }
+          if (key.equals("sentfrom")) {
+            model.setFrom(value);
+          }
+          if (key.equals("wrong_point")) {
+            model.setWrongPoint(value);
+          }
+          if (key.equals("time")) {
+            model.setTime(value);
+          }
+          if (key.equals("name")) {
+            model.setName(value);
+          }
+          if (key.equals("route")) {
+            model.setRoute(value);
+          }
+          if (key.equals("place")) {
+            model.setPlace(value);
+          }
+          if (key.equals("status")) {
+            model.setStatus(value);
+          }
+          if (key.equals("note")) {
+            model.setNote(value);
+          }
+          if (key.equals("channel")) {
+            model.setChannel(value);
+          }
+          Log.d(LOG_TAG, value);
+
+          notifyModel.add(model);
+        }
+      }
+
+      for (int i = 0; i < notifyModel.size(); i++) {
+        NotifyListManager.getInstance().add(notifyModel.get(i));
+      }
+
+
         String from = message.getFrom();
-        Log.d(LOG_TAG, "onMessage - from: " + from);
+        //Log.d(LOG_TAG, "onMessage - from: " + from);
+        //Log.d(LOG_TAG, "Message: " + message.getData() + " (body): " + message.getNotification().getBody());
 
         Bundle extras = new Bundle();
 
@@ -102,6 +164,11 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
                 extras.putBoolean(FOREGROUND, true);
                 extras.putBoolean(COLDSTART, false);
                 PushPlugin.sendExtras(extras);
+
+              Intent i = new Intent(this, NotifyAlertDialog.class);
+              i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+              startActivity(i);
+
             }
             // if we are in the foreground and forceShow is `true`, force show the notification if the data has at least a message or title
             else if (forceShow && PushPlugin.isInForeground()) {
@@ -110,16 +177,30 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
                 extras.putBoolean(COLDSTART, false);
 
                 showNotificationIfPossible(applicationContext, extras);
+
             }
             // if we are not in the foreground always send notification if the data has at least a message or title
             else {
                 Log.d(LOG_TAG, "background");
                 extras.putBoolean(FOREGROUND, false);
                 extras.putBoolean(COLDSTART, PushPlugin.isActive());
-
                 showNotificationIfPossible(applicationContext, extras);
+
+
             }
         }
+
+
+      // Alert Dialog Notification.
+      //Intent i = new Intent(this, NotifyAlertDialog.class);
+      //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      //startActivity(i);
+
+
+    }
+
+    public void clearNotification(){
+        notifyModel.clear();
     }
 
     /*
@@ -303,6 +384,10 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
     }
 
     private void showNotificationIfPossible (Context context, Bundle extras) {
+
+      Intent i = new Intent(this, NotifyAlertDialog.class);
+      i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      startActivity(i);
 
         // Send a notification if there is a message or title, otherwise just send data
         String message = extras.getString(MESSAGE);

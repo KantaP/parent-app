@@ -44,13 +44,13 @@ export class LoginPage {
     this._util.loading('')
     this._util.signIn(email.value,password.value)
     .then((response)=>{
-      this._util.loaded()
+      
       if(response.status == 200) {
         this._state.setState(response.data.user)
         var userProfile = Object.assign({},response.data.user,{password: password.value})
         this._util.setStorage('userProfile',userProfile)
         globalToken = response.data.token
-        if(this.platform.is('cordova')) {
+         if(this.platform.is('cordova')) {
           this.push.register().then((t: PushToken)=>{
             return this.push.saveToken(t)
           })
@@ -60,15 +60,17 @@ export class LoginPage {
             })
             this._apollo.setPushToken(email.value,t.token)
             .subscribe((res)=>{
+              this._util.loaded()
               this.navCtrl.setRoot(HomePage)
             })
           })
           .catch((err)=>{
             alert(err.message)
           })
-        }else{
-          this.navCtrl.setRoot(HomePage)
-        }
+         }else{
+           this._util.loaded()
+           this.navCtrl.setRoot(HomePage)
+         }
       }else{
         this._util.alertMessage('Failed login','Email address or password not valid')
       }

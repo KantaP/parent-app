@@ -34,8 +34,8 @@ import { StateProvider } from '../providers/state/state';
 import { DirectivesModule } from '../directives/directives.module'
 import { ApolloProvider } from '../providers/apollo/apollo';
 declare var globalToken;
-const networkInterface = createNetworkInterface('http://127.0.0.1:3000/graphql');
-// const networkInterface = createNetworkInterface('http://schoolsafe.sg.ecoachmanager.com/graphql');
+//const networkInterface = createNetworkInterface('http://127.0.0.1:3000/graphql');
+const networkInterface = createNetworkInterface('http://schoolsafe.sg.ecoachmanager.com/graphql');
 networkInterface.use([{
   applyMiddleware(req, next) {
     if (!req.options.headers) {

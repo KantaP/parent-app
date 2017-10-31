@@ -11,9 +11,11 @@ import android.support.v4.app.RemoteInput;
 public class BackgroundActionButtonHandler extends BroadcastReceiver implements PushConstants {
     private static String LOG_TAG = "Push_BGActionButton";
 
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        Bundle extras = intent.getExtras();
+
+       Bundle extras = intent.getExtras();
         Log.d(LOG_TAG, "BackgroundActionButtonHandler = " + extras);
 
         int notId = intent.getIntExtra(NOT_ID, 0);
@@ -22,6 +24,12 @@ public class BackgroundActionButtonHandler extends BroadcastReceiver implements 
         notificationManager.cancel(FCMService.getAppName(context), notId);
 
         if (extras != null)	{
+
+
+          Intent i = new Intent(context, NotifyAlertDialog.class);
+          i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+          context.startActivity(i);
+
             Bundle originalExtras = extras.getBundle(PUSH_BUNDLE);
 
             originalExtras.putBoolean(FOREGROUND, false);
@@ -36,6 +44,11 @@ public class BackgroundActionButtonHandler extends BroadcastReceiver implements 
             }
 
             PushPlugin.sendExtras(originalExtras);
+
         }
+
      }
+
+
+
 }

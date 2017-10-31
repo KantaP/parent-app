@@ -3,6 +3,7 @@ package com.adobe.phonegap.push;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,6 +52,7 @@ public class PushPlugin extends CordovaPlugin implements PushConstants {
     public boolean execute(final String action, final JSONArray data, final CallbackContext callbackContext) {
         Log.v(LOG_TAG, "execute: action=" + action);
         gWebView = this.webView;
+
 
         if (INITIALIZE.equals(action)) {
             cordova.getThreadPool().execute(new Runnable() {
@@ -250,6 +252,8 @@ public class PushPlugin extends CordovaPlugin implements PushConstants {
         }
 
         return true;
+
+
     }
 
     public static void sendEvent(JSONObject _json) {
@@ -257,6 +261,11 @@ public class PushPlugin extends CordovaPlugin implements PushConstants {
         pluginResult.setKeepCallback(true);
         if (pushContext != null) {
             pushContext.sendPluginResult(pluginResult);
+
+          // alert dialog
+         // Intent i = new Intent(this.cordova.getActivity().getApplicationContext(), NotifyAlertDialog.class);
+
+
         }
     }
 
@@ -267,6 +276,7 @@ public class PushPlugin extends CordovaPlugin implements PushConstants {
             pushContext.sendPluginResult(pluginResult);
         }
     }
+
 
     /*
      * Sends the pushbundle extras to the client application.
@@ -282,6 +292,8 @@ public class PushPlugin extends CordovaPlugin implements PushConstants {
                 gCachedExtras.add(extras);
             }
         }
+
+
     }
 
 	/*

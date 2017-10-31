@@ -4,12 +4,12 @@ import { Storage } from '@ionic/storage';
 import axios from 'axios';
 import 'rxjs/add/operator/map';
 declare var globalToken;
-const SignInApi = 'http://localhost:3000/login'
-const SendSMSApi = 'http://localhost:3000/sendSMS'
-const EmailVerifyApi = 'http://localhost:3000/prepareEmailVerify'
-// const SignInApi = 'http://schoolsafe.sg.ecoachmanager.com/login'
-// const SendSMSApi = 'http://schoolsafe.sg.ecoachmanager.com/sendSMS'
-// const EmailVerifyApi = 'http://schoolsafe.sg.ecoachmanager.com/prepareEmailVerify'
+//const SignInApi = 'http://localhost:3000/login'
+//const SendSMSApi = 'http://localhost:3000/sendSMS'
+//const EmailVerifyApi = 'http://localhost:3000/prepareEmailVerify'
+const SignInApi = 'http://schoolsafe.sg.ecoachmanager.com/login'
+const SendSMSApi = 'http://schoolsafe.sg.ecoachmanager.com/sendSMS'
+const EmailVerifyApi = 'http://schoolsafe.sg.ecoachmanager.com/prepareEmailVerify'
 /*
   Generated class for the UtilitiesProvider provider.
 
