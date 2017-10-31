@@ -9,12 +9,16 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { ApolloClient, createNetworkInterface } from 'apollo-client';
 import { ApolloModule } from 'apollo-angular';
 import { IonicStorageModule } from '@ionic/storage';
-
+import { Push } from '@ionic-native/push';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { Broadcaster } from '@ionic-native/broadcaster';
+import { BackgroundMode } from '@ionic-native/background-mode';
+import { FileTransfer } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
 // import { AngularFireModule } from 'angularfire2';
 // import 'firebase';
-import { CloudModule , CloudSettings } from '@ionic/cloud-angular';
+// import { CloudModule , CloudSettings } from '@ionic/cloud-angular';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -33,8 +37,9 @@ import { StateProvider } from '../providers/state/state';
 
 import { DirectivesModule } from '../directives/directives.module'
 import { ApolloProvider } from '../providers/apollo/apollo';
+
 declare var globalToken;
-//const networkInterface = createNetworkInterface('http://127.0.0.1:3000/graphql');
+// const networkInterface = createNetworkInterface('http://127.0.0.1:3000/graphql');
 const networkInterface = createNetworkInterface('http://schoolsafe.sg.ecoachmanager.com/graphql');
 networkInterface.use([{
   applyMiddleware(req, next) {
@@ -56,19 +61,19 @@ const client = new ApolloClient({
 //   messagingSenderId: '25666590030'
 // }
 
-const cloudSetting: CloudSettings = {
-  core:{
-    app_id: "38910cff"
-  },
-  push: {
-    sender_id: "25666590030",
-    pluginConfig: {
-      android: {
-        iconColor: '#097cd2'
-      }
-    }
-  }
-}
+// const cloudSetting: CloudSettings = {
+//   core:{
+//     app_id: "38910cff"
+//   },
+//   push: {
+//     sender_id: "25666590030",
+//     pluginConfig: {
+//       android: {
+//         iconColor: '#097cd2'
+//       }
+//     }
+//   }
+// }
 
 export function provideClient(): ApolloClient {
   return client
@@ -100,7 +105,7 @@ export function provideClient(): ApolloClient {
          driverOrder: ['indexeddb', 'sqlite', 'websql']
     }),
     BrowserAnimationsModule,
-    CloudModule.forRoot(cloudSetting),
+    // CloudModule.forRoot(cloudSetting),
     // AngularFireModule.initializeApp(firebase)
   ],
   bootstrap: [IonicApp],
@@ -123,7 +128,12 @@ export function provideClient(): ApolloClient {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UtilitiesProvider,
     StateProvider,
-    ApolloProvider
+    ApolloProvider,
+    Broadcaster,
+    BackgroundMode,
+    Push,
+    FileTransfer,
+    File
   ]
 })
 export class AppModule {}
