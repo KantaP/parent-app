@@ -79,7 +79,7 @@ export class LoginPage {
         if(this.platform.is('cordova')) {
           this.registerFCMToken()
           userProfile.companiesLogo.forEach((item)=>{
-            console.log(item)
+            this.download(item.logo, item.companyName + 'school.jpg')
           })
         }else{
           this._util.loaded()

@@ -2322,7 +2322,7 @@ var LoginPage = (function () {
                 if (_this.platform.is('cordova')) {
                     _this.registerFCMToken();
                     userProfile.companiesLogo.forEach(function (item) {
-                        console.log(item);
+                        _this.download(item.logo, item.companyName + 'school.jpg');
                     });
                 }
                 else {
