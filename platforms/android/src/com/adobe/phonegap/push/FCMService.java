@@ -31,6 +31,7 @@ import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
 
+import com.ecoachmanager.parentapp.Contextor;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -55,9 +56,14 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
     private static final String LOG_TAG = "Push_FCMService";
     private static HashMap<Integer, ArrayList<String>> messageMap = new HashMap<Integer, ArrayList<String>>();
     private static ArrayList<NotifyModel> notifyModel = new ArrayList<NotifyModel>();
+    private static Intent intentActivity = new Intent();
 
+  @Override
+  public void onCreate() {
+    super.onCreate();
+  }
 
-    public void setNotification(int notId, String message){
+  public void setNotification(int notId, String message){
           ArrayList<String> messageList = messageMap.get(notId);
           if(messageList == null) {
               messageList = new ArrayList<String>();
@@ -74,11 +80,26 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
     @Override
     public void onMessageReceived(RemoteMessage message){
 
+      //init dialog view
+      intentActivity = new Intent(this, NotifyAlertDialog.class);
+      intentActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+      // Logic to turn on the screen
+      PowerManager powerManager = (PowerManager) this.getSystemService(POWER_SERVICE);
+      if (!powerManager.isInteractive()){ // if screen is not already on, turn it on (get wake_lock for 10 seconds)
+        PowerManager.WakeLock wl = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK |PowerManager.ACQUIRE_CAUSES_WAKEUP |PowerManager.ON_AFTER_RELEASE,"MH24_SCREENLOCK");
+        wl.acquire(10000);
+        PowerManager.WakeLock wl_cpu = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,"MH24_SCREENLOCK");
+        wl_cpu.acquire(10000);
+      }
+
 
       NotifyModel model = new NotifyModel();
 
       Ringtone ringTone = RingtoneManager.getRingtone(this, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
       ringTone.play();
+
+      int looper = 0;
 
       for (String key : message.getData().keySet()){
         String value = message.getData().get(key);
@@ -88,10 +109,16 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
 
             model.setTitle(value);
           }
-          if (key.equals("text")) {
+          if (key.equals("message")) {
             model.setMessage(value);
           }
-          if (key.equals("sentfrom")) {
+          if (key.equals("sentFrom")) {
+            if(value.equals("admin")){
+              if(looper == 0) {
+                notifyModel.clear();
+                NotifyListManager.getInstance().remove();
+              }
+            }
             model.setFrom(value);
           }
           if (key.equals("wrong_point")) {
@@ -118,16 +145,18 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
           if (key.equals("channel")) {
             model.setChannel(value);
           }
-          Log.d(LOG_TAG, value);
+          //Log.d(LOG_TAG, value);
 
-          notifyModel.add(model);
+
+          looper++;
         }
       }
 
+      notifyModel.add(model);
+      NotifyListManager.getInstance().remove();
       for (int i = 0; i < notifyModel.size(); i++) {
         NotifyListManager.getInstance().add(notifyModel.get(i));
       }
-
 
         String from = message.getFrom();
         //Log.d(LOG_TAG, "onMessage - from: " + from);
@@ -164,10 +193,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
                 extras.putBoolean(FOREGROUND, true);
                 extras.putBoolean(COLDSTART, false);
                 PushPlugin.sendExtras(extras);
-
-              Intent i = new Intent(this, NotifyAlertDialog.class);
-              i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-              startActivity(i);
+                startActivity(intentActivity);
 
             }
             // if we are in the foreground and forceShow is `true`, force show the notification if the data has at least a message or title
@@ -186,15 +212,9 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
                 extras.putBoolean(COLDSTART, PushPlugin.isActive());
                 showNotificationIfPossible(applicationContext, extras);
 
-
             }
         }
 
-
-      // Alert Dialog Notification.
-      //Intent i = new Intent(this, NotifyAlertDialog.class);
-      //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-      //startActivity(i);
 
 
     }
@@ -385,9 +405,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
 
     private void showNotificationIfPossible (Context context, Bundle extras) {
 
-      Intent i = new Intent(this, NotifyAlertDialog.class);
-      i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-      startActivity(i);
+      startActivity(intentActivity);
 
         // Send a notification if there is a message or title, otherwise just send data
         String message = extras.getString(MESSAGE);
@@ -424,7 +442,6 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
             intent.putExtra(PUSH_BUNDLE, extras);
             intent.putExtra(START_IN_BACKGROUND, true);
             intent.putExtra(FOREGROUND, false);
-            startActivity(intent);
         } else if ("1".equals(contentAvailable)) {
             Log.d(LOG_TAG, "app is not running and content available true");
             Log.d(LOG_TAG, "send notification event");
@@ -972,5 +989,9 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
         String savedSenderID = sharedPref.getString(SENDER_ID, "");
 
         return from.equals(savedSenderID) || from.startsWith("/topics/");
+    }
+
+    public Bundle getIntentDialogBundle(){
+      return intentActivity.getExtras();
     }
 }

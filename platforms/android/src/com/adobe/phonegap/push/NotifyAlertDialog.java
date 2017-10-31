@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -19,7 +18,6 @@ import android.widget.ViewFlipper;
 
 
 import com.ecoachmanager.parentapp.R;
-import com.google.firebase.messaging.FirebaseMessagingService;
 
 import java.util.ArrayList;
 
@@ -33,8 +31,9 @@ public class NotifyAlertDialog extends Activity {
   private ArrayList<NotifyModel> notifyModel;
 
   LinearLayout layoutDialog;
-  TextView txtTime,txtUser,txtRoute,txtLocation,txtAlight,txtNote;
-  ImageButton btnNavLeft,btnNavRight;
+  RelativeLayout layoutMain;
+  TextView txtTime, txtUser, txtRoute, txtLocation, txtAlight, txtNote, txtAdminMsg;
+  ImageButton btnNavLeft, btnNavRight;
   Button btnOk;
 
   ViewFlipper viewFlipper;
@@ -44,16 +43,17 @@ public class NotifyAlertDialog extends Activity {
   RelativeLayout layoutContent;
   private static View viewContentLoader;
 
+  private FCMService fcmService = new FCMService();
+  public static boolean active = false;
+
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
     setFinishOnTouchOutside(false);
     setContentView(R.layout.custom_dialog);
 
-
-    layoutDialog = (LinearLayout)findViewById(R.id.layoutDialog);
-    layoutDialog.setBackgroundColor(Color.TRANSPARENT);
+    //layoutDialog = (LinearLayout)findViewById(R.id.layoutDialog);
+    //layoutDialog.setBackgroundColor(Color.TRANSPARENT);
 
     notifyModel = new ArrayList<NotifyModel>();
 
@@ -64,7 +64,6 @@ public class NotifyAlertDialog extends Activity {
       public void onClick(View v) {
 
         NotifyListManager.getInstance().remove();
-        FCMService fcmService = new FCMService();
         fcmService.clearNotification();
 
         finish();
@@ -94,37 +93,67 @@ public class NotifyAlertDialog extends Activity {
       }
     });
 
+    fecthDataToFlipper();
+  }
+
+  private void fecthDataToFlipper() {
     NotifyListManager dao = NotifyListManager.getInstance();
 
+    viewFlipper.removeAllViews(); // clear empty view is first.
     // loop for creating View's
-    viewFlipper.removeAllViews();
+
     for (int i = 0; i < dao.getSize(); i++) {
 
-
       LayoutInflater inflater = (LayoutInflater) getSystemService(this.LAYOUT_INFLATER_SERVICE);
-      viewContentLoader = (View)inflater.inflate(R.layout.custom_msg_children_item, null);
 
-      txtTime = (TextView)viewContentLoader.findViewById(R.id.txtTime);
-      txtUser = (TextView)viewContentLoader.findViewById(R.id.txtUser);
-      txtRoute = (TextView)viewContentLoader.findViewById(R.id.txtRoute);
-      txtLocation = (TextView)viewContentLoader.findViewById(R.id.txtLocation);
-      txtAlight = (TextView)viewContentLoader.findViewById(R.id.txtAlight);
-      txtNote = (TextView)viewContentLoader.findViewById(R.id.txtNote);
 
-      txtTime.setText(dao.getDao(i).getTime());
-      txtUser.setText(dao.getDao(i).getName());
-      txtRoute.setText(dao.getDao(i).getRoute());
-      txtLocation.setText(dao.getDao(i).getPlace());
-      //textAlight
-      txtNote.setText("" + i + "=" + dao.getDao(i).getName());
-      viewFlipper.addView(viewContentLoader, i);
+      // admin message
+      if (dao.getDao(i).getFrom().equals("admin")) {
+        if (i == 0) {
+          layoutMain.setBackgroundColor(Color.parseColor("#f7931e"));
+        }
+        viewContentLoader = (View) inflater.inflate(R.layout.custom_msg_admin_item, null);
 
+        txtAdminMsg = (TextView) viewContentLoader.findViewById(R.id.txtAdminMsg);
+        txtAdminMsg.setText(dao.getDao(i).getMessage());
+      } else {
+        if (i == 0) {
+          layoutMain.setBackgroundColor(Color.parseColor("#342B6A"));
+        }
+        viewContentLoader = (View) inflater.inflate(R.layout.custom_msg_children_item, null);
+
+        txtTime = (TextView) viewContentLoader.findViewById(R.id.txtTime);
+        txtUser = (TextView) viewContentLoader.findViewById(R.id.txtUser);
+        txtRoute = (TextView) viewContentLoader.findViewById(R.id.txtRoute);
+        txtLocation = (TextView) viewContentLoader.findViewById(R.id.txtLocation);
+        txtAlight = (TextView) viewContentLoader.findViewById(R.id.txtAlight);
+        txtNote = (TextView) viewContentLoader.findViewById(R.id.txtNote);
+
+        txtTime.setText(dao.getDao(i).getTime());
+        txtUser.setText(dao.getDao(i).getName());
+        txtRoute.setText(dao.getDao(i).getRoute());
+        txtLocation.setText(dao.getDao(i).getPlace());
+        //textAlight
+        txtNote.setText("" + i + "=" + dao.getDao(i).getName());
+
+      }
+      viewFlipper.addView(viewContentLoader, i); // add view into flipper
       //i = dao.getSize(); // for test once data
 
+      // move to last data
+      if((dao.getSize() > 1)){
+        viewFlipper.setInAnimation(NotifyAlertDialog.this, R.anim.in_right);
+        viewFlipper.setOutAnimation(NotifyAlertDialog.this, R.anim.out_left);
+        viewFlipper.setDisplayedChild(dao.getSize() - 1);
+      }
     }
 
+
+
+
+
     // hide button nav
-    if(viewFlipper.getChildCount() <= 1){
+    if (viewFlipper.getChildCount() <= 1) {
       btnNavRight.setVisibility(View.GONE);
       btnNavLeft.setVisibility(View.GONE);
     } else {
@@ -132,10 +161,11 @@ public class NotifyAlertDialog extends Activity {
       btnNavLeft.setVisibility(View.VISIBLE);
     }
   }
+
   @Override
   public boolean onTouchEvent(MotionEvent event) {
 
-    if(viewFlipper.getChildCount() > 1) {
+    if (viewFlipper.getChildCount() > 1) {
 
       switch (event.getAction()) {
         case MotionEvent.ACTION_DOWN:
@@ -162,7 +192,6 @@ public class NotifyAlertDialog extends Activity {
           }
           break;
       }
-
     }
 
     return false;
@@ -170,15 +199,39 @@ public class NotifyAlertDialog extends Activity {
 
   private void initView() {
 
-    viewFlipper = (ViewFlipper)findViewById(R.id.viewFlipper);
+    layoutMain = (RelativeLayout) findViewById(R.id.layoutMain);
+
+
+    viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
     viewFlipper.setAutoStart(false);
     // set the animation type to ViewFlipper
     viewFlipper.setFlipInterval(3000);
 
 
-    btnNavLeft = (ImageButton)findViewById(R.id.btnNavLeft);
-    btnNavRight = (ImageButton)findViewById(R.id.btnNavRight);
-    btnOk = (Button)findViewById(R.id.btnOk);
+    btnNavLeft = (ImageButton) findViewById(R.id.btnNavLeft);
+    btnNavRight = (ImageButton) findViewById(R.id.btnNavRight);
+    btnOk = (Button) findViewById(R.id.btnOk);
   }
 
+  @Override
+  protected void onResume() {
+    super.onResume();
+    fecthDataToFlipper();
+
+  }
+
+  @Override
+  protected void onStart() {
+    super.onStart();
+
+  }
+
+
+  @Override
+  protected void onDestroy() {
+    NotifyListManager.getInstance().remove();
+    fcmService.clearNotification();
+    viewFlipper.removeAllViews();
+    super.onDestroy();
+  }
 }

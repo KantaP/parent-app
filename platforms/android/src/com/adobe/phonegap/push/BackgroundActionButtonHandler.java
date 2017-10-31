@@ -25,11 +25,6 @@ public class BackgroundActionButtonHandler extends BroadcastReceiver implements 
 
         if (extras != null)	{
 
-
-          Intent i = new Intent(context, NotifyAlertDialog.class);
-          i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-          context.startActivity(i);
-
             Bundle originalExtras = extras.getBundle(PUSH_BUNDLE);
 
             originalExtras.putBoolean(FOREGROUND, false);
