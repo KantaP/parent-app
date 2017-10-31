@@ -71,6 +71,7 @@ export class LoginPage {
     this._util.loading('')
     this._util.signIn(email.value,password.value)
     .then((response)=>{
+
       if(response.status == 200) {
         this._state.setState(response.data.user)
         var userProfile = Object.assign({},response.data.user,{password: password.value})

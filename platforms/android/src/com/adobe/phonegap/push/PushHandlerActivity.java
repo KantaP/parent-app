@@ -25,6 +25,7 @@ public class PushHandlerActivity extends Activity implements PushConstants {
 
         Intent intent = getIntent();
 
+
         int notId = intent.getExtras().getInt(NOT_ID, 0);
         Log.d(LOG_TAG, "not id = " + notId);
         gcm.setNotification(notId, "");
@@ -61,10 +62,16 @@ public class PushHandlerActivity extends Activity implements PushConstants {
             } else if(startOnBackground) {
                 Log.d(LOG_TAG, "startOnBackgroundTrue");
                 forceMainActivityReload(true);
+
+
+
             } else {
                 Log.d(LOG_TAG, "don't want main activity");
+
+
             }
         }
+
     }
 
     /**

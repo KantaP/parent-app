@@ -13,6 +13,7 @@ public class PushDismissedHandler extends BroadcastReceiver implements PushConst
         Bundle extras = intent.getExtras();
         FCMService fcm = new FCMService();
         String action = intent.getAction();
+
         int notID = intent.getIntExtra(NOT_ID, 0);
 
         if (action.equals(PUSH_DISMISSED)) {
@@ -21,5 +22,6 @@ public class PushDismissedHandler extends BroadcastReceiver implements PushConst
 
             fcm.setNotification(notID, "");
         }
+
     }
 }

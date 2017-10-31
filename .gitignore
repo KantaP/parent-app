@@ -24,6 +24,11 @@ tmp/
 temp/
 hooks/
 platforms/
+<<<<<<< HEAD
+=======
+!platforms/android/res
+!platforms/android/src
+>>>>>>> 5c00451b9dbb8ead0da8757c71decf77cd9ebdf1
 plugins/
 plugins/android.json
 plugins/ios.json
