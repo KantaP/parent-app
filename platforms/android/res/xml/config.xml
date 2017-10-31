@@ -1,7 +1,22 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.ecoachmanager.parentapp" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="TestFairy">
+        <param name="android-package" value="com.testfairy.CDVTestFairy" />
+    </feature>
+    <feature name="Permissions">
+        <param name="android-package" value="com.android.plugins.Permissions" />
+    </feature>
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="BackgroundMode">
+        <param name="android-package" value="de.appplant.cordova.plugin.background.BackgroundMode" />
+    </feature>
+    <feature name="broadcaster">
+        <param name="android-package" value="org.bsc.cordova.CDVBroadcaster" />
+    </feature>
+    <feature name="Notification">
+        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
     </feature>
     <feature name="SplashScreen">
         <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
@@ -25,8 +40,13 @@
     <feature name="PushNotification">
         <param name="android-package" value="com.adobe.phonegap.push.PushPlugin" />
     </feature>
-    <feature name="TestFairy">
-        <param name="android-package" value="com.testfairy.CDVTestFairy" />
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
+    <allow-navigation href="cdvfile:*" />
+    <feature name="FileTransfer">
+        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
     </feature>
     <name>School Journey App</name>
     <description>An awesome Ionic/Cordova app.</description>
@@ -40,6 +60,7 @@
     <allow-navigation href="http://192.168.1.21:8100" />
     <allow-navigation href="http://192.168.1.21:8101" />
     <allow-intent href="market:*" />
+    <resource-file src="google-services.json" target="google-services.json" />
     <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
     <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
     <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
@@ -67,12 +88,8 @@
     <allow-intent href="tel:*" />
     <allow-intent href="mailto:*" />
     <preference name="loglevel" value="DEBUG" />
-    <preference name="webView" value="org.crosswalk.engine.XWalkWebViewEngine" />
-    <preference name="xwalkVersion" value="23+" />
-    <preference name="xwalkLiteVersion" value="xwalk_core_library_canary:17+" />
-    <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect" />
-    <preference name="xwalkMode" value="embedded" />
-    <preference name="xwalkMultipleApk" value="true" />
+    <preference name="KeepRunning" value="true" />
+    <preference name="AndroidLaunchMode" value="singleInstance" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />

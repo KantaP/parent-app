@@ -10,6 +10,7 @@ public class PushDismissedHandler extends BroadcastReceiver implements PushConst
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
         Bundle extras = intent.getExtras();
         FCMService fcm = new FCMService();
         String action = intent.getAction();

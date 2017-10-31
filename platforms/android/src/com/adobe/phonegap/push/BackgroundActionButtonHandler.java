@@ -13,6 +13,7 @@ public class BackgroundActionButtonHandler extends BroadcastReceiver implements 
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
         Bundle extras = intent.getExtras();
         Log.d(LOG_TAG, "BackgroundActionButtonHandler = " + extras);
 
