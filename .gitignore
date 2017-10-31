@@ -26,6 +26,7 @@ hooks/
 platforms/
 !platforms/android/res
 !platforms/android/src
+!platforms/android/AndroidManifest_editor.xml
 plugins/
 plugins/android.json
 plugins/ios.json
