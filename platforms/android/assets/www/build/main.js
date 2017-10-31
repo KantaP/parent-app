@@ -2346,7 +2346,7 @@ var LoginPage = (function () {
             .then(function (entry) {
             console.log('download complete: ' + entry.toURL());
         }, function (error) {
-            console.log("error", "Error file transfert");
+            console.log("error", "Error file transfer");
         });
     };
     LoginPage.prototype.register = function () {

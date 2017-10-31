@@ -102,7 +102,7 @@ export class LoginPage {
       .then((entry)=>{
         console.log('download complete: ' + entry.toURL());
       }, (error) => {
-        console.log("error", "Error file transfert");
+        console.log("error", "Error file transfer");
    });
   }
 
