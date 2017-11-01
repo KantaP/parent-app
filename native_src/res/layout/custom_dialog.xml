@@ -62,10 +62,12 @@
         <!-- Header -->
         <ImageView
           android:id="@+id/logoDialog"
-          android:layout_width="100dp"
+          android:layout_marginTop="8dp"
+          android:layout_marginBottom="6dp"
+          android:layout_width="200dp"
           android:layout_height="100dp"
           android:background="@drawable/logo_dialog_default"
-          android:scaleType="fitStart" />
+          android:scaleType="center" />
 
       </LinearLayout>
 

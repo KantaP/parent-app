@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ public class NotifyAlertDialog extends Activity {
   TextView txtTime, txtUser, txtRoute, txtLocation, txtAlight, txtNote, txtAdminMsg;
   ImageButton btnNavLeft, btnNavRight;
   Button btnOk;
+  ImageView imgViewLogoDialog;
 
   ViewFlipper viewFlipper;
   Animation in;
@@ -93,7 +95,7 @@ public class NotifyAlertDialog extends Activity {
       }
     });
 
-    fecthDataToFlipper();
+
   }
 
   private void fecthDataToFlipper() {
@@ -102,20 +104,29 @@ public class NotifyAlertDialog extends Activity {
     viewFlipper.removeAllViews(); // clear empty view is first.
     // loop for creating View's
 
+    // image
+    imgViewLogoDialog.setBackground(null);
+    if(dao.getDao(0).getLogoBitmap() != null){
+      imgViewLogoDialog.setImageBitmap(dao.getDao(0).getLogoBitmap());
+    } else {
+      imgViewLogoDialog.setBackgroundResource(R.drawable.logo_dialog_default);
+    }
+
     for (int i = 0; i < dao.getSize(); i++) {
 
       LayoutInflater inflater = (LayoutInflater) getSystemService(this.LAYOUT_INFLATER_SERVICE);
 
 
       // admin message
-      if (dao.getDao(i).getFrom().equals("admin")) {
-        if (i == 0) {
-          layoutMain.setBackgroundColor(Color.parseColor("#f7931e"));
+      if(dao.getDao(i).getFrom() != null) {
+        if (dao.getDao(i).getFrom().equals("admin")) {
+          if (i == 0) {
+            layoutMain.setBackgroundColor(Color.parseColor("#f7931e"));
+          }
+          viewContentLoader = (View) inflater.inflate(R.layout.custom_msg_admin_item, null);
+          txtAdminMsg = (TextView) viewContentLoader.findViewById(R.id.txtAdminMsg);
+          txtAdminMsg.setText(dao.getDao(i).getMessage());
         }
-        viewContentLoader = (View) inflater.inflate(R.layout.custom_msg_admin_item, null);
-
-        txtAdminMsg = (TextView) viewContentLoader.findViewById(R.id.txtAdminMsg);
-        txtAdminMsg.setText(dao.getDao(i).getMessage());
       } else {
         if (i == 0) {
           layoutMain.setBackgroundColor(Color.parseColor("#342B6A"));
@@ -135,7 +146,6 @@ public class NotifyAlertDialog extends Activity {
         txtLocation.setText(dao.getDao(i).getPlace());
         //textAlight
         txtNote.setText("" + i + "=" + dao.getDao(i).getName());
-
       }
       viewFlipper.addView(viewContentLoader, i); // add view into flipper
       //i = dao.getSize(); // for test once data
@@ -147,10 +157,6 @@ public class NotifyAlertDialog extends Activity {
         viewFlipper.setDisplayedChild(dao.getSize() - 1);
       }
     }
-
-
-
-
 
     // hide button nav
     if (viewFlipper.getChildCount() <= 1) {
@@ -200,7 +206,7 @@ public class NotifyAlertDialog extends Activity {
   private void initView() {
 
     layoutMain = (RelativeLayout) findViewById(R.id.layoutMain);
-
+    imgViewLogoDialog = (ImageView)findViewById(R.id.logoDialog);
 
     viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
     viewFlipper.setAutoStart(false);

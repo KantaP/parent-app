@@ -1,5 +1,7 @@
 package com.adobe.phonegap.push;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by John on 10/30/2017.
  */
@@ -27,6 +29,29 @@ public class NotifyModel {
   private String note;
 
   private String channel;
+
+  private String logoName;
+
+  private Bitmap logoBitmap;
+
+
+
+  public Bitmap getLogoBitmap() {
+    return logoBitmap;
+  }
+
+  public void setLogoBitmap(Bitmap logoBitmap) {
+    this.logoBitmap = logoBitmap;
+  }
+
+
+  public String getLogoName() {
+    return logoName;
+  }
+
+  public void setLogoName(String logoName) {
+    this.logoName = logoName;
+  }
 
   public String getTitle() {
     return title;
@@ -116,7 +141,11 @@ public class NotifyModel {
     this.channel = channel;
   }
 
-  public NotifyModel() {
+  public NotifyModel(){
+
+  }
+
+  public NotifyModel(String title, String message, String from, String wrongPoint, String time, String name, String route, String place, String status, String note, String channel, String logoName, Bitmap logoBitmap) {
     this.title = title;
     this.message = message;
     this.from = from;
@@ -128,5 +157,8 @@ public class NotifyModel {
     this.status = status;
     this.note = note;
     this.channel = channel;
+    this.logoName = logoName;
+    this.logoBitmap = logoBitmap;
   }
+
 }

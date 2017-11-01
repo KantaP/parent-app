@@ -31,7 +31,6 @@ import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
 
-import com.ecoachmanager.parentapp.Contextor;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -41,7 +40,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -57,6 +55,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
     private static HashMap<Integer, ArrayList<String>> messageMap = new HashMap<Integer, ArrayList<String>>();
     private static ArrayList<NotifyModel> notifyModel = new ArrayList<NotifyModel>();
     private static Intent intentActivity = new Intent();
+    private static FileService fileService = new FileService();
 
   @Override
   public void onCreate() {
@@ -145,8 +144,11 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
           if (key.equals("channel")) {
             model.setChannel(value);
           }
+          if (key.equals("logo_name")){
+            model.setLogoName(value + "_school.jpg");
+          }
           //Log.d(LOG_TAG, value);
-
+          model.setLogoName("jj test acc Tracking_school.jpg");
 
           looper++;
         }
@@ -154,9 +156,32 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
 
       notifyModel.add(model);
       NotifyListManager.getInstance().remove();
+
       for (int i = 0; i < notifyModel.size(); i++) {
-        NotifyListManager.getInstance().add(notifyModel.get(i));
+
+        // get bitmap first loop only
+        Bitmap bitmap =  null;
+        if(notifyModel.get(0).getLogoName() != null && i == 0) {
+          bitmap = fileService.getFile(notifyModel.get(i).getLogoName());
+        }
+        // fetch to model
+        NotifyListManager.getInstance().add(new NotifyModel(
+          notifyModel.get(i).getTitle(),
+          notifyModel.get(i).getMessage(),
+          notifyModel.get(i).getFrom(),
+          notifyModel.get(i).getWrongPoint(),
+          notifyModel.get(i).getTime(),
+          notifyModel.get(i).getName(),
+          notifyModel.get(i).getRoute(),
+          notifyModel.get(i).getPlace(),
+          notifyModel.get(i).getStatus(),
+          notifyModel.get(i).getNote(),
+          notifyModel.get(i).getChannel(),
+          notifyModel.get(i).getLogoName(),
+          bitmap
+        ));
       }
+
 
         String from = message.getFrom();
         //Log.d(LOG_TAG, "onMessage - from: " + from);
