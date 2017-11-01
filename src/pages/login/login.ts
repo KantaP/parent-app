@@ -99,7 +99,7 @@ export class LoginPage {
   download(urlImage, fileName) {
     const fileTransfer: FileTransferObject = this.transfer.create();
     var url = encodeURI(urlImage);
-    fileTransfer.download(url, this.file.dataDirectory + fileName)
+    fileTransfer.download(url, this.file.externalDataDirectory + fileName)
       .then((entry)=>{
         console.log('download complete: ' + entry.toURL());
       }, (error) => {

@@ -32,7 +32,6 @@
     "apollo-client": "^1.9.2",
     "axios": "^0.16.2",
     "com.testfairy.cordova-plugin": "~2.3.0",
-    "cordova-android": "6.3.0",
     "cordova-plugin-console": "1.0.5",
     "cordova-plugin-crosswalk-webview": "^2.3.0",
     "cordova-plugin-device": "1.1.4",
@@ -81,8 +80,6 @@
       },
       "com.testfairy.cordova-plugin": {}
     },
-    "platforms": [
-      "android"
-    ]
+    "platforms": []
   }
 }
