@@ -116,4 +116,5 @@
         <variable name="SENDER_ID" value="373959366908" />
     </plugin>
     <plugin name="com.testfairy.cordova-plugin" spec="~2.3.0" />
+    <engine name="android" spec="~6.3.0" />
 </widget>

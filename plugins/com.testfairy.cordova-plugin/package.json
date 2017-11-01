@@ -1,7 +1,35 @@
 {
-  "name": "com.testfairy.cordova-plugin",
-  "version": "2.3.0",
-  "description": "TestFairy SDK plugin for Cordova",
+  "_from": "com.testfairy.cordova-plugin@~2.3.0",
+  "_id": "com.testfairy.cordova-plugin@2.3.0",
+  "_inBundle": false,
+  "_integrity": "sha1-HacVuj2b0ezonYe4D9U0ArnU6j0=",
+  "_location": "/com.testfairy.cordova-plugin",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "com.testfairy.cordova-plugin@~2.3.0",
+    "name": "com.testfairy.cordova-plugin",
+    "escapedName": "com.testfairy.cordova-plugin",
+    "rawSpec": "~2.3.0",
+    "saveSpec": null,
+    "fetchSpec": "~2.3.0"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/com.testfairy.cordova-plugin/-/com.testfairy.cordova-plugin-2.3.0.tgz",
+  "_shasum": "1da715ba3d9bd1ece89d87b80fd53402b9d4ea3d",
+  "_spec": "com.testfairy.cordova-plugin@~2.3.0",
+  "_where": "D:\\www\\parent-app-journey",
+  "author": {
+    "name": "Apache Software Foundation"
+  },
+  "bugs": {
+    "url": "https://github.com/testfairy/testfairy-cordova-plugin/issues"
+  },
+  "bundleDependencies": false,
   "cordova": {
     "id": "com.testfairy.cordova-plugin",
     "platforms": [
@@ -9,10 +37,9 @@
       "android"
     ]
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/testfairy/testfairy-cordova-plugin"
-  },
+  "deprecated": false,
+  "description": "TestFairy SDK plugin for Cordova",
+  "homepage": "https://github.com/testfairy/testfairy-cordova-plugin",
   "keywords": [
     "cordova",
     "testfairy",
@@ -24,11 +51,11 @@
     "cordova-android",
     "ecosystem:cordova"
   ],
-  "author": "Apache Software Foundation",
   "license": "Apache 2.0",
-  "bugs": {
-    "url": "https://github.com/testfairy/testfairy-cordova-plugin/issues"
+  "name": "com.testfairy.cordova-plugin",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/testfairy/testfairy-cordova-plugin.git"
   },
-  "homepage": "https://github.com/testfairy/testfairy-cordova-plugin"
+  "version": "2.3.0"
 }
-
