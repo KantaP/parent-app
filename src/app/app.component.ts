@@ -1,9 +1,8 @@
-import { Broadcaster } from '@ionic-native/broadcaster';
+
 import { Component } from '@angular/core';
 import { Platform , Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { BackgroundMode } from '@ionic-native/background-mode';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
 // import { HomePage } from '../pages/home/home';
 // import { LoginPage } from '../pages/login/login';
@@ -18,7 +17,7 @@ export class MyApp {
   rootPage:any = AfterSplashScreenPage;
 
   constructor(private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
-    private backgroundMode: BackgroundMode , private broadCaster: Broadcaster , private push: Push, private event: Events ) {
+    private push: Push, private event: Events ) {
     platform.ready().then(() => {
       // TestFairy.begin("62c8089044d2af45ac43191018bea59a8f127e6a");
       // Okay, so the platform is ready and our plugins are available.
@@ -27,8 +26,6 @@ export class MyApp {
       splashScreen.hide();
       this.initPushNotification()
       if(platform.is('android')) {
-        backgroundMode.enable()
-        backgroundMode.setDefaults({ silent: true });
         // setInterval(()=>{
         //   console.log(Date.now())
         // },1000)

@@ -12,8 +12,6 @@ import { IonicStorageModule } from '@ionic/storage';
 import { Push } from '@ionic-native/push';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-import { Broadcaster } from '@ionic-native/broadcaster';
-import { BackgroundMode } from '@ionic-native/background-mode';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 // import { AngularFireModule } from 'angularfire2';
@@ -129,8 +127,6 @@ export function provideClient(): ApolloClient {
     UtilitiesProvider,
     StateProvider,
     ApolloProvider,
-    Broadcaster,
-    BackgroundMode,
     Push,
     FileTransfer,
     File

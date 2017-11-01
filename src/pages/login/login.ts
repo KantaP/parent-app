@@ -7,7 +7,6 @@ import { ApolloProvider } from '../../providers/apollo/apollo';
 import { HomePage } from '../home/home';
 import { RegisterPage } from '../register/register';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
-import { BackgroundMode } from '@ionic-native/background-mode';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 declare var globalToken;
@@ -29,7 +28,7 @@ export class LoginPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private _fb: FormBuilder, private _util: UtilitiesProvider, private _state: StateProvider ,
     private push: Push, private platform: Platform, private _apollo: ApolloProvider,
-    private backgroundMode: BackgroundMode , private transfer: FileTransfer, private file: File) {
+    private transfer: FileTransfer, private file: File) {
     this.loginForm = this._fb.group({
       email: ['',Validators.compose([
         Validators.pattern(/^(([^<>()\[\]\\.,;:\s@]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
