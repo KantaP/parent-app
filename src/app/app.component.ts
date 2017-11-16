@@ -1,6 +1,6 @@
 
 import { Component } from '@angular/core';
-import { Platform , Events } from 'ionic-angular';
+import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
@@ -17,7 +17,7 @@ export class MyApp {
   rootPage:any = AfterSplashScreenPage;
 
   constructor(private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
-    private push: Push, private event: Events ) {
+    private push: Push) {
     platform.ready().then(() => {
       // TestFairy.begin("62c8089044d2af45ac43191018bea59a8f127e6a");
       // Okay, so the platform is ready and our plugins are available.
@@ -29,7 +29,6 @@ export class MyApp {
         // setInterval(()=>{
         //   console.log(Date.now())
         // },1000)
-        this.event.subscribe('recievedMessage' , (data) => {console.log('recieved event',data)})
       }
     });
   }
@@ -53,10 +52,9 @@ export class MyApp {
       console.log('message -> ' + data.message);
       console.log(data)
       //if user using app and push notification comes
-      this.event.publish('recievedMessage',data)
       if (data.additionalData.foreground) {
         // if application open, show popup
-        alert(data.message)
+        // alert(data.message)
       } else {
 
         //if user NOT using app and push notification comes

@@ -79,7 +79,7 @@ export class LoginPage {
         if(this.platform.is('cordova')) {
           this.registerFCMToken()
           userProfile.companiesLogo.forEach((item)=>{
-            console.log(item)
+            this.download(item.logo, item.companyName + '_school.jpg')
           })
         }else{
           this._util.loaded()
@@ -90,7 +90,7 @@ export class LoginPage {
       }
     })
     .catch((err)=>{
-      this._util.alertMessage('Failed login',err.message)
+      this._util.alertMessage('Failed login','Email address or password not valid')
       this._util.loaded()
     })
   }
