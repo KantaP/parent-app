@@ -33,7 +33,7 @@ public class NotifyAlertDialog extends Activity {
 
   LinearLayout layoutDialog;
   RelativeLayout layoutMain;
-  TextView txtTime, txtUser, txtRoute, txtLocation, txtAlight, txtNote, txtAdminMsg;
+  TextView txtTime, txtUser, txtRoute, txtLocation, txtStatus, txtNote, txtAdminMsg, txtTopicNote;
   ImageButton btnNavLeft, btnNavRight;
   Button btnOk;
   ImageView imgViewLogoDialog;
@@ -129,7 +129,7 @@ public class NotifyAlertDialog extends Activity {
         }
       } else {
         if (i == 0) {
-          layoutMain.setBackgroundColor(Color.parseColor("#342B6A"));
+          layoutMain.setBackgroundColor(Color.parseColor("#144ac6"));
         }
         viewContentLoader = (View) inflater.inflate(R.layout.custom_msg_children_item, null);
 
@@ -137,15 +137,30 @@ public class NotifyAlertDialog extends Activity {
         txtUser = (TextView) viewContentLoader.findViewById(R.id.txtUser);
         txtRoute = (TextView) viewContentLoader.findViewById(R.id.txtRoute);
         txtLocation = (TextView) viewContentLoader.findViewById(R.id.txtLocation);
-        txtAlight = (TextView) viewContentLoader.findViewById(R.id.txtAlight);
+        txtStatus = (TextView) viewContentLoader.findViewById(R.id.txtStatus);
         txtNote = (TextView) viewContentLoader.findViewById(R.id.txtNote);
+        txtTopicNote = (TextView)viewContentLoader.findViewById(R.id.txtTopicNote);
 
         txtTime.setText(dao.getDao(i).getTime());
         txtUser.setText(dao.getDao(i).getName());
         txtRoute.setText(dao.getDao(i).getRoute());
         txtLocation.setText(dao.getDao(i).getPlace());
-        //textAlight
-        txtNote.setText("" + i + "=" + dao.getDao(i).getName());
+        txtStatus.setText(dao.getDao(i).getStatus());
+
+        // check Note show ?
+        if(dao.getDao(i).getWrongPoint() != null) {
+             if(dao.getDao(i).getWrongPoint().equals("0")){
+                txtTopicNote.setVisibility(View.GONE);
+                txtNote.setVisibility(View.GONE);
+             } else {
+                txtNote.setText(dao.getDao(i).getNote());
+             }
+        } else {
+             txtTopicNote.setVisibility(View.GONE);
+             txtNote.setVisibility(View.GONE);
+        }
+
+
       }
       viewFlipper.addView(viewContentLoader, i); // add view into flipper
       //i = dao.getSize(); // for test once data

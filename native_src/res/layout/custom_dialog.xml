@@ -12,7 +12,7 @@
   <RelativeLayout
     android:id="@+id/layoutMain"
     android:gravity="center"
-    android:background="#342B6A"
+    android:background="#144ac6"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 

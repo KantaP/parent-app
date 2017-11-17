@@ -122,7 +122,7 @@
           android:src="@drawable/alight" />
 
         <TextView
-          android:id="@+id/txtAlight"
+          android:id="@+id/txtStatus"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:maxLines="2"
@@ -140,6 +140,7 @@
         android:paddingBottom="8dp">
 
         <TextView
+          android:id="@+id/txtTopicNote"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:maxLines="2"
