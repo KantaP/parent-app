@@ -149,10 +149,13 @@ public class NotifyAlertDialog extends Activity {
 
         // check Note show ?
         if(dao.getDao(i).getWrongPoint() != null) {
+          
              if(dao.getDao(i).getWrongPoint().equals("0")){
                 txtTopicNote.setVisibility(View.GONE);
                 txtNote.setVisibility(View.GONE);
-             } else {
+             } else  {
+                txtTopicNote.setVisibility(View.VISIBLE);
+                txtNote.setVisibility(View.VISIBLE);
                 txtNote.setText(dao.getDao(i).getNote());
              }
         } else {

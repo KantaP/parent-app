@@ -117,8 +117,11 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
                 notifyModel.clear();
                 NotifyListManager.getInstance().remove();
               }
+                model.setFrom(value);
+            } else if(value.equals("")){
+                model.setFrom(null);
             }
-            model.setFrom(value);
+    
           }
           if (key.equals("wrong_point")) {
             model.setWrongPoint(value);
@@ -148,14 +151,14 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
             model.setLogoName(value + "_school.jpg");
           }
           //Log.d(LOG_TAG, value);
-          model.setLogoName("jj test acc Tracking_school.jpg");
+          //model.setLogoName("jj test acc Tracking_school.jpg");
 
           looper++;
         }
       }
 
       notifyModel.add(model);
-      NotifyListManager.getInstance().remove();
+      //NotifyListManager.getInstance().remove();
 
       for (int i = 0; i < notifyModel.size(); i++) {
 
@@ -226,8 +229,9 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
                 Log.d(LOG_TAG, "foreground force");
                 extras.putBoolean(FOREGROUND, true);
                 extras.putBoolean(COLDSTART, false);
-
-                showNotificationIfPossible(applicationContext, extras);
+                
+                startActivity(intentActivity);
+                //showNotificationIfPossible(applicationContext, extras);
 
             }
             // if we are not in the foreground always send notification if the data has at least a message or title
@@ -235,7 +239,9 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
                 Log.d(LOG_TAG, "background");
                 extras.putBoolean(FOREGROUND, false);
                 extras.putBoolean(COLDSTART, PushPlugin.isActive());
-                showNotificationIfPossible(applicationContext, extras);
+
+                startActivity(intentActivity);
+                //showNotificationIfPossible(applicationContext, extras);
 
             }
         }
