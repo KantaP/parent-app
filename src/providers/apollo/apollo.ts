@@ -27,6 +27,15 @@ const setPushToken = gql`
   }
 `;
 
+const deletePushToken = gql`
+mutation parentPushTokenDelete($input: DeleteParentPushTokenInput!) {
+  parentPushTokenDelete(input: $input) {
+    msg
+    status
+  }
+}
+`
+
 const getParent = gql`
 query parentGlobalSelect($email: String!) {
   parentGlobalSelect(email: $email) {
@@ -159,11 +168,29 @@ const schoolContact = gql`
     schoolContact {
       name
       address
-      phone
-      email
+      tracking_phone
+      tracking_email
     }
   }
 `;
+
+const contactOptions = gql`
+  query parentContactOptions {
+    parentContactOptions {
+      accept_email
+      accept_notification
+    }
+  }
+`
+
+const updateContactOption = gql`
+  mutation parentUpdateContactOption($input: UpdateParentContactOptionInput!) {
+    parentUpdateContactOption(input: $input) {
+      msg
+      status
+    }
+  }
+`
 
 
 // const PARENT_APP_KEY = md5('parent_voova_' + moment().utc().format('DD-MM-YYYY'))
@@ -180,8 +207,9 @@ export class ApolloProvider {
       query: getParent,
       variables: {
         email
-      }
-    })
+      },
+      fetchPolicy: 'network-only'
+    }).valueChanges
   }
 
   setPassword(email: string, password: string) {
@@ -201,8 +229,9 @@ export class ApolloProvider {
       query: getParentPassenger,
       variables: {
         email
-      }
-    })
+      },
+      fetchPolicy: 'network-only'
+    }).valueChanges
   }
 
   // getPassengerRouteToday(passenger_id: number) {
@@ -235,9 +264,40 @@ export class ApolloProvider {
     })
   }
 
+  deletePushToken(push_token: string) {
+    return this.apollo.mutate({
+      mutation: deletePushToken,
+      variables: {
+        input: {
+          push_token
+        }
+      }
+    })
+  }
+
   getSchoolContact() {
-    return this.apollo.query({
-      query: schoolContact
+    return this.apollo.watchQuery({
+      query: schoolContact,
+      fetchPolicy: 'network-only'
+    }).valueChanges
+  }
+
+  getContactOptions() {
+    return this.apollo.watchQuery({
+      query: contactOptions,
+      fetchPolicy: 'network-only'
+    }).valueChanges
+  }
+
+  updateContactOption(value, key) {
+    return this.apollo.mutate({
+      mutation: updateContactOption,
+      variables: {
+        input: {
+          key,
+          value
+        }
+      }
     })
   }
 

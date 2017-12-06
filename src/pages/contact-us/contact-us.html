@@ -19,7 +19,7 @@
 <ion-content class="main-bg">
     <ion-grid class="padding-left-20 padding-right-20" *ngIf="schoolData">
         <ion-row justify-content-center class="margin-top-40">
-            <img src="assets/img/logo.png" class="contact-logo" />
+            <img src="assets/img/Logo-black.png" class="contact-logo" />
         </ion-row>
         <ion-row class="margin-top-30 font-size-5-vw normal-text">
             <div>
@@ -42,17 +42,17 @@
             </ion-col>
             <ion-col col-11>
                 <div>
-                    {{schoolData.phone}}
+                    {{schoolData.tracking_phone}}
                 </div>
             </ion-col>
         </ion-row>
         <ion-row class="margin-top-40">
-            <a ion-button block icon-start color="sugar" href="tel:{{schoolData.phone}}">
+            <a ion-button block icon-start color="primary" class="padding-20" href="tel:{{schoolData.tracking_phone}}">
                 <ion-icon ios="ios-call" md="ios-call" class="margin-right-10"></ion-icon> Call Us
             </a>
         </ion-row>
         <ion-row class="margin-top-5">
-            <a ion-button block icon-start color="sugar" href="mailto:{{schoolData.email}}">
+            <a ion-button block icon-start color="primary" class="padding-20" href="mailto:{{schoolData.tracking_email}}">
                 <ion-icon ios="ios-mail" md="ios-mail" class="margin-right-10"></ion-icon> Email Us
             </a>
         </ion-row>

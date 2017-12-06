@@ -54,20 +54,14 @@
                     </ion-col>
                 </ion-row>
                 <ion-row *ngIf="wrongBoarding(route.collection_address.passenger_log)">
-                    <ion-grid class="padding-0">
-                        <ion-row>
-                            <ion-col col-4 class="padding-0 dark-box">
-                                <div class="red-box">Wrong Pick Up</div>
-                            </ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col col-8 class="padding-0 dark-gray-box">
-                                <div class="red-text padding-10">
-                                    {{showWrongPickUp(route.collection_address)}}
-                                </div>
-                            </ion-col>
-                        </ion-row>
-                    </ion-grid>
+                    <ion-col col-4 class="padding-0 dark-box">
+                        <div class="red-box">Wrong Pick Up</div>
+                    </ion-col>
+                    <ion-col col-8 class="padding-0 dark-gray-box">
+                        <div class="red-text padding-10">
+                            {{showWrongPickUp(route.collection_address)}}
+                        </div>
+                    </ion-col>
                 </ion-row>
                 <ion-row>
                     <ion-col col-4 class="dark-box">
@@ -79,20 +73,14 @@
                     </ion-col>
                 </ion-row>
                 <ion-row *ngIf="wrongAlighting(route.destination_address.passenger_log)">
-                    <ion-grid class="padding-0">
-                        <ion-row>
-                            <ion-col col-4 class="padding-0 dark-box">
-                                <div class="red-box">Wrong Drop Off</div>
-                            </ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col col-8 class="padding-0 dark-gray-box">
-                                <div class="red-text padding-10">
-                                    {{showWrongDropOff(route.destination_address)}}
-                                </div>
-                            </ion-col>
-                        </ion-row>
-                    </ion-grid>
+                    <ion-col col-4 class="padding-0 dark-box">
+                        <div class="red-box">Wrong Drop Off</div>
+                    </ion-col>
+                    <ion-col col-8 class="padding-0 dark-gray-box">
+                        <div class="red-text padding-10">
+                            {{showWrongDropOff(route.destination_address)}}
+                        </div>
+                    </ion-col>
                 </ion-row>
                 <ion-row justify-content-between class="dark-box">
                     <div>
@@ -121,7 +109,7 @@
                         <span>{{route.destination_address.time_end}}</span>
                     </div>
                 </ion-row>
-                <ion-row justify-content-between [ngClass]="{'red-text':wrongAlighting(route.destination_address.passenger_log),'silver-box':true}" *ngIf="checkRouteLog(route.destination_address.passenger_log , 0)">
+                <ion-row justify-content-between [ngClass]="{'red-text':wrongAlighting(route.destination_address.passenger_log),'dark-box':true}" *ngIf="checkRouteLog(route.destination_address.passenger_log , 0)">
                     <div>
                         <span>Actual Alighting Time</span>
                     </div>

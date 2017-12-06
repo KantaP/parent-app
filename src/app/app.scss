@@ -25,13 +25,13 @@ button {
 }
 
 .normal-text {
-    color: map-get($colors, 'light');
+    color: map-get($colors, 'dark');
 }
 
 .main-bg {
-    background-color: map-get($colors, 'primary');
-    background-image: url('../assets/img/bg-old.png');
-    background-size: contain;
+    background-color: map-get($colors, 'light');
+    // background-image: url('../assets/img/bg-old.png');
+    // background-size: contain;
 }
 
 .main-logo {

@@ -17,10 +17,10 @@
 
 
 <ion-content>
-    <!-- <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content>
         </ion-refresher-content>
-    </ion-refresher> -->
+    </ion-refresher>
     <ion-grid class="padding-0" *ngFor="let items of passengerBySchool">
         <!-- <ion-row justify-content-start class="schoolLabel padding-left-10">
             <ion-icon ios="ios-school" md="ios-school" class="margin-right-10"></ion-icon>
@@ -143,11 +143,13 @@
                     </ion-row>
                 </ion-grid>
             </ion-row>
+            <ion-row *ngIf="item.routeToday.length == 0 && showPassengerRoute[i]" justify-content-center>
+                <ion-grid>
+                    <ion-row class="padding-10" justify-content-center>
+                        No Activity...
+                    </ion-row>
+                </ion-grid>
+            </ion-row>
         </ion-grid>
     </ion-grid>
 </ion-content>
-
-
-<!-- <ng-template #loaderBox>
-    <div>Loading...</div>
-</ng-template> -->

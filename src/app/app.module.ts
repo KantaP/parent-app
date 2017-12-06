@@ -6,17 +6,13 @@ import { HttpModule } from '@angular/http';
 
 import { ReactiveFormsModule }   from '@angular/forms';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { ApolloClient, createNetworkInterface } from 'apollo-client';
-import { ApolloModule } from 'apollo-angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { Push } from '@ionic-native/push';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
-// import { AngularFireModule } from 'angularfire2';
-// import 'firebase';
-// import { CloudModule , CloudSettings } from '@ionic/cloud-angular';
+
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -35,47 +31,10 @@ import { StateProvider } from '../providers/state/state';
 
 import { DirectivesModule } from '../directives/directives.module'
 import { ApolloProvider } from '../providers/apollo/apollo';
-
-declare var globalToken;
-// const networkInterface = createNetworkInterface('http://127.0.0.1:3000/graphql');
-const networkInterface = createNetworkInterface('http://schoolsafe.sg.ecoachmanager.com/graphql');
-networkInterface.use([{
-  applyMiddleware(req, next) {
-    if (!req.options.headers) {
-      req.options.headers = {};
-    }
-    req.options.headers.authorization = 'Bearer ' + globalToken;
-    next();
-  }
-}]);
-
-const client = new ApolloClient({
-  networkInterface
-})
-
-// const firebase = {
-//   apiKey: 'AIzaSyD7B3zdaQ4G63tS2Xny7gFts8Yi-stNh-w',
-//   projectId: 'driverapp-1470129684507',
-//   messagingSenderId: '25666590030'
-// }
-
-// const cloudSetting: CloudSettings = {
-//   core:{
-//     app_id: "38910cff"
-//   },
-//   push: {
-//     sender_id: "25666590030",
-//     pluginConfig: {
-//       android: {
-//         iconColor: '#097cd2'
-//       }
-//     }
-//   }
-// }
-
-export function provideClient(): ApolloClient {
-  return client
-}
+import { HttpClientModule } from '@angular/common/http';
+import { HttpLinkModule } from 'apollo-angular-link-http';
+import { ApolloModule } from 'apollo-angular';
+import { ContactOptionPage } from '../pages/contact-option/contact-option';
 
 @NgModule({
   declarations: [
@@ -89,22 +48,28 @@ export function provideClient(): ApolloClient {
     AfterSplashScreenPage,
     ChildrenPage,
     TrackingPage,
-    ContactUsPage
+    ContactUsPage,
+    ContactOptionPage
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp ,   {
+      scrollPadding: false,
+      scrollAssist: true,
+      autoFocusAssist: false
+
+}),
     ReactiveFormsModule,
     HttpModule,
     DirectivesModule,
-    ApolloModule.withClient(provideClient),
+    HttpClientModule,
+    HttpLinkModule,
+    ApolloModule,
     IonicStorageModule.forRoot({
       name: '__parentapp',
          driverOrder: ['indexeddb', 'sqlite', 'websql']
     }),
     BrowserAnimationsModule,
-    // CloudModule.forRoot(cloudSetting),
-    // AngularFireModule.initializeApp(firebase)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -118,7 +83,8 @@ export function provideClient(): ApolloClient {
     AfterSplashScreenPage,
     ChildrenPage,
     TrackingPage,
-    ContactUsPage
+    ContactUsPage,
+    ContactOptionPage
   ],
   providers: [
     StatusBar,

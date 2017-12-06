@@ -52,7 +52,7 @@ export class SetPasswordPage {
   nextStep() {
     var { password1 , password2 } = this.passwordForm.controls
     if(password1.value != password2.value) {
-      this._util.alertMessage('Invalid Password' , 'Password must match with re-type password')
+      this._util.alertMessage('Invalid Password' , 'Passwords do not match')
     }else{
       var state = this._state.getState()
       this._util.loading('')
@@ -67,7 +67,7 @@ export class SetPasswordPage {
               this._util.setStorage('passFirstRegister', true)
               this._state.clearState()
               this._util.removeStorage('userProfile')
-              this._util.alertMessage('Success!!!','You can use your email to login now.','checkImg')
+              this._util.alertMessage('Success!!!','Success, You can now use your email and password to login.','checkImg')
               this.navCtrl.setRoot(LoginPage)
               globalToken = ""
             }

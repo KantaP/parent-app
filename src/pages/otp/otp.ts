@@ -67,7 +67,7 @@ export class OtpPage{
     this._util.loading('')
     var otp = Math.floor(Math.random() * 900000) + 100000;
     this._state.setState({otp:otp})
-    this._util.callSms(this.phone_m,'Here is your one-time 6 digit verification code for the Parent App. This code will expire in 5 minute, ' + otp)
+    this._util.callSms(this.phone_m,'You will receive an sms with a 6 digit OTP (One Time passcode). Please enter that code above and press next.' + otp)
     .then((data)=>{
       this._util.loaded()
     })

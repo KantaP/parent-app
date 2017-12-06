@@ -122,17 +122,11 @@ export class ChildrenPage {
     this.loadPassengers()
   }
 
-  // doRefresh(refresher) {
+  doRefresh(refresher) {
 
-  //   var state = this._state.getState()
-  //   this.apollo.getParentPassengers(state['parent_id'])
-  //   .subscribe(
-  //     res => {
-  //       this.passengers = res.data['parentPassenger']
-  //       this.passengers.forEach(()=>{this.arrowIcon.push('ios-arrow-back')})
-  //     }
-  //   )
-  // }
+    this.loadPassengers()
+    refresher.complete()
+  }
 
   loadPassengers() {
     this._util.loading('')
@@ -309,6 +303,7 @@ export class ChildrenPage {
   goToTracking(routeData , passenger) {
     // console.log(routeData)
     // console.log(passenger)
+    if(routeData.peroid == 'previous' || routeData.peroid == 'next') return false
     this.navCtrl.push(TrackingPage,{routeData, passenger})
   }
 }

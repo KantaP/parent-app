@@ -1,7 +1,6 @@
 import { Component , ViewChild , ElementRef } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
-import { ApolloProvider } from '../../providers/apollo/apollo';
 import * as moment from 'moment';
 import {
   trigger,
@@ -100,7 +99,7 @@ export class TrackingPage {
   showJourney: boolean;
   tracking: any;
   _moment: any
-  constructor(public navCtrl: NavController, public navParams: NavParams, private _util: UtilitiesProvider, private _apollo: ApolloProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private _util: UtilitiesProvider) {
     this.routeData = {}
     this.routeData = Object.assign({},this.navParams.data.routeData)
     // this.routeData = this.navParams.data.routeData
@@ -236,6 +235,7 @@ export class TrackingPage {
             map: this.map,
             icon: 'assets/img/green.png'
           })
+          console.log(vehicleMarker)
         }
         // this.tracking = this._apollo.trackingVehicle(this.routeData.j_id)
         // this.tracking.subscribe(trackingData=>{
@@ -267,7 +267,7 @@ export class TrackingPage {
     // console.log(routeLog)
     // return false;
     if(routeLog.length > 0) {
-      var log = routeLog.filter((route)=>(route.route_type == route_type));
+      var log = routeLog.filter((route)=>(route.route_type == route_type && route.log_type_code > 0));
       if(log.length == 0) return false;
       else return true;
     }else{

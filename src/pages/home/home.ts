@@ -1,3 +1,4 @@
+import { ContactOptionPage } from './../contact-option/contact-option';
 import { ContactUsPage } from './../contact-us/contact-us';
 import { Component } from '@angular/core';
 import { NavController, MenuController  } from 'ionic-angular';
@@ -18,12 +19,14 @@ export class HomePage {
   childrenPage: any
   setPasswordPage: any
   contactUsPage: any
+  contackOptionPage: any
   constructor(public navCtrl: NavController, private _state: StateProvider, private _util: UtilitiesProvider ,
     private menu: MenuController , private push: Push) {
     this.rootPage = ChildrenPage
     this.childrenPage = ChildrenPage
     this.setPasswordPage = SetPasswordPage
     this.contactUsPage = ContactUsPage
+    this.contackOptionPage = ContactOptionPage
   }
 
   ionViewDidLoad() {
@@ -42,6 +45,7 @@ export class HomePage {
     globalToken = ''
     this._state.clearState()
     this._util.removeStorage('userProfile')
+    this._util.removeStorage('fcm_token')
     this.navCtrl.setRoot(LoginPage)
   }
 

@@ -15,18 +15,19 @@
 
 <ion-content class="main-bg">
     <ion-grid>
-        <ion-row justify-content-center>
-            <img src="assets/img/logo.png" class="main-logo" />
+        <ion-row justify-content-center class="margin-top-40">
+            <img src="assets/img/Logo-black.png" class="main-logo" />
         </ion-row>
-        <form [formGroup]="registerForm" novalidate>
+        <form [formGroup]="registerForm" novalidate class="margin-top-70">
             <ion-row justify-content-center class="margin-top-15">
                 <ion-input class="input-box" type="email" placeholder="Email" formControlName="email"></ion-input>
             </ion-row>
             <ion-row justify-content-center class="margin-top-10">
-                <button ion-button block color="sugar" (click)="nextStep()">Next</button>
+                <button ion-button block color="primary" class="padding-20" (click)="nextStep()">Next</button>
             </ion-row>
-            <ion-row justify-content-center class="margin-top-5" *ngIf="canSkipRegistered">
-                <button ion-button block color="sugar" (click)="skipRegister()">Skip</button>
+            <ion-row justify-content-center class="margin-top-20" *ngIf="canSkipRegistered">
+                <!-- <button ion-button block color="sugar" (click)="skipRegister()">Skip</button> -->
+                <a (click)="skipRegister()">Skip to Login >></a>
             </ion-row>
         </form>
     </ion-grid>
