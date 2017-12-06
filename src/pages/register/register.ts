@@ -33,7 +33,8 @@ export class RegisterPage {
     this.registerForm = this._fb.group({
       email: ['', [Validators.required]]
     })
-    // alert(this.navCtrl.canGoBack())
+
+
     if(this.navCtrl.canGoBack()) this.showBackButton = true;
     else this.showBackButton = false;
     this.canSkipRegistered = this.navParams.get('canSkipRegistered')
@@ -65,6 +66,7 @@ export class RegisterPage {
     .then((res)=>{
       // alert(res.data['token'])
       if(res.data['token'] == ''){
+        this.util.loaded()
         this.util.alertMessage('Invalid Email Address','The email address you have entered is not recognised. Please contact your company for assistance.')
       }else{
         globalToken = res.data['token']
@@ -87,8 +89,8 @@ export class RegisterPage {
             })
           },
           (err)=>{
-            this.util.alertMessage('Invalid Email Address',err.message)
             this.util.loaded()
+            this.util.alertMessage('Invalid Email Address',err.message)
           })
         },1000)
       }

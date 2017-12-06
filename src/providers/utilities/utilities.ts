@@ -56,7 +56,7 @@ export class UtilitiesProvider {
 
   loaded() {
     if(this.loaderItem != null) {
-      this.loaderItem.dismiss()
+      this.loaderItem.dismissAll()
       this.loaderItem = null
     }
   }

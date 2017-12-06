@@ -249,7 +249,7 @@ export class ChildrenPage {
   showWrongPickUp(routeDetail: Array<any>) {
     if(routeDetail['passenger_log'].length > 0) {
       var log = routeDetail['passenger_log'].filter((route)=>(route.route_type == 1 && route.log_type_code == 3));
-      return log[0].address.collection
+      return log[0].address.destination
     }else{
       return 'N/A'
     }

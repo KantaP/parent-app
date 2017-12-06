@@ -283,10 +283,10 @@ export class ApolloProvider {
   }
 
   getContactOptions() {
-    return this.apollo.watchQuery({
+    return this.apollo.query({
       query: contactOptions,
-      fetchPolicy: 'network-only'
-    }).valueChanges
+      fetchPolicy: 'cache-first'
+    })
   }
 
   updateContactOption(value, key) {
@@ -297,6 +297,11 @@ export class ApolloProvider {
           key,
           value
         }
+      },
+      update: (store) => {
+        const data = store.readQuery({ query: contactOptions });
+        data['parentContactOptions'][key] = value;
+        store.writeQuery({ query: contactOptions, data });
       }
     })
   }

@@ -1,3 +1,18 @@
 page-register {
-
+    .toolbar-background-md,
+    .toolbar-background-ios {
+        background: transparent !important;
+    }
+    .bar-button-default-md,
+    .bar-button-clear-md-default,
+    .bar-button-md-default,
+    .bar-button-default-ios,
+    .bar-button-clear-ios-default,
+    .bar-button-ios-default {
+        color: #000;
+    }
+    .header-md::after,
+    .header-ios::after {
+        height: 0px !important;
+    }
 }

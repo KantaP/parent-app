@@ -17,13 +17,15 @@
     <div #map style="height:100%;width:100%;"></div>
     <ion-grid [@fadeInAnimation]="" class="padding-0" style="position:absolute;top:0px">
         <ion-row justify-content-between class="passenger-box" (click)="toggleShowJourney()">
-            <ion-col class="text-align-right">
-                <ion-icon ios="ios-person" md="ios-person"></ion-icon>
+            <ion-col col-10 class="text-align-left">
+                <div>
+                    <ion-icon ios="ios-person" md="ios-person"></ion-icon> {{passenger.first_name}} {{passenger.surname}}
+                </div>
             </ion-col>
-            <ion-col class="text-align-center">
+            <!-- <ion-col class="text-align-center">
                 <div>{{passenger.first_name}} {{passenger.surname}}</div>
-            </ion-col>
-            <ion-col class="text-align-right">
+            </ion-col> -->
+            <ion-col col-2 class="text-align-right">
                 <ion-icon class="margin-right-10" [ios]="arrowIcon" [md]="arrowIcon"></ion-icon>
             </ion-col>
         </ion-row>

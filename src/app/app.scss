@@ -238,3 +238,8 @@ $left-slug: left;
     color: #fff;
     font-size: 1.2em;
 }
+
+.footer-md::before,
+.footer-ios::before {
+    height: 0px !important;
+}
