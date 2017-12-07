@@ -1,9 +1,10 @@
 import { ApolloProvider } from './../../providers/apollo/apollo';
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Platform } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 import 'rxjs/add/operator/toPromise';
-import { Push } from '@ionic-native/push';
+import { Push, PushOptions, PushObject } from '@ionic-native/push';
+import { UtilitiesProvider } from '../../providers/utilities/utilities';
 
 /**
  * Generated class for the ContactOptionPage page.
@@ -19,7 +20,8 @@ import { Push } from '@ionic-native/push';
 export class ContactOptionPage {
   emailEnable: boolean
   notifEnable: boolean
-  constructor(public navCtrl: NavController, public navParams: NavParams, private _apollo: ApolloProvider, private loaderCtrl: LoadingController, private _push: Push) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private _apollo: ApolloProvider,
+    private loaderCtrl: LoadingController, private _push: Push, private platform : Platform, private _util: UtilitiesProvider) {
     this.emailEnable = false
     this.notifEnable = false
   }
@@ -43,12 +45,16 @@ export class ContactOptionPage {
     Promise.all(updatePromises)
     .then((response)=>{
       if(!this.notifEnable) {
-        const pushObject = this._push.init({});
-        pushObject.unregister()
+        if (this.platform.is('cordova')) {
+          const pushObject = this._push.init({});
+          pushObject.unregister()
+        }
+      }else{
+        this._util.initPushNotification()
       }
       loader.dismiss()
-      console.log(response)
     })
   }
+
 
 }

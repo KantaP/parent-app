@@ -71,9 +71,9 @@ export class AfterSplashScreenPage {
       globalToken = response.data.token
       this._apollo.getContactOptions()
       .subscribe((res)=>{
-        this._state.setState({contactOptions: res.data['parentContactOptions']})
+        // this._state.setState({contactOptions: res.data['parentContactOptions']})
         if( res.data['parentContactOptions']['accept_notification']) {
-          this.initPushNotification()
+          this._util.initPushNotification()
         }
         this.navCtrl.setRoot(HomePage)
       })
@@ -82,31 +82,6 @@ export class AfterSplashScreenPage {
       this._util.alertMessage('Authenticate','Your password changed. Please contact your company for assistance.')
       this.navCtrl.setRoot(LoginPage)
     }
-  }
-
-
-  initPushNotification() {
-    if (!this.platform.is('cordova')) {
-      console.warn('Push notifications not initialized. Cordova is not available - Run in physical device');
-      return;
-    }
-    const options: PushOptions = {
-      android: {},
-      ios: {
-        alert: 'true',
-        badge: false,
-        sound: 'true'
-      },
-      windows: {}
-    };
-    const pushObject: PushObject = this.push.init(options);
-
-    pushObject.on('notification').subscribe((data: any) => {
-      console.log('message -> ' + data.message);
-      console.log(data)
-    });
-
-    pushObject.on('error').subscribe(error => console.error('Error with Push plugin' + error));
   }
 
 }

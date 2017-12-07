@@ -139,7 +139,7 @@ export class ChildrenPage {
           // this.loading = res.loading
           this.passengerBySchool = res.data['parentPassengers']
           this.passengerBySchool.forEach((school)=>{
-            school.passengers.map((item)=>{
+            school.passengers.forEach((item)=>{
               this.arrowIcon.push('ios-arrow-back')
               this.showPassengerRoute.push(false)
             })

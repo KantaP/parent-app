@@ -1,5 +1,6 @@
+import { PushOptions, PushObject , Push } from '@ionic-native/push';
 import { Injectable } from '@angular/core';
-import { AlertController , LoadingController} from 'ionic-angular';
+import { AlertController, LoadingController, Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import axios from 'axios';
 import 'rxjs/add/operator/map';
@@ -21,7 +22,8 @@ export class UtilitiesProvider {
 
   private alertItem : any = null
   private loaderItem: any = null
-  constructor(private alert: AlertController, private loader: LoadingController, private storage: Storage ) {
+  constructor(private alert: AlertController, private loader: LoadingController, private storage: Storage ,
+     private platform: Platform, private push: Push) {
 
   }
 
@@ -105,5 +107,29 @@ export class UtilitiesProvider {
 
   removeStorage(key:string){
     return this.storage.remove(key)
+  }
+
+  initPushNotification() {
+    if (!this.platform.is('cordova')) {
+      console.warn('Push notifications not initialized. Cordova is not available - Run in physical device');
+      return;
+    }
+    const options: PushOptions = {
+      android: {},
+      ios: {
+        alert: 'true',
+        badge: false,
+        sound: 'true'
+      },
+      windows: {}
+    };
+    const pushObject: PushObject = this.push.init(options);
+
+    pushObject.on('notification').subscribe((data: any) => {
+      console.log('message -> ' + data.message);
+      console.log(data)
+    });
+
+    pushObject.on('error').subscribe(error => console.error('Error with Push plugin' + error));
   }
 }
