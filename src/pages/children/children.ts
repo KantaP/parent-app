@@ -12,6 +12,7 @@ import {
 } from '@angular/animations';
 // import { Cookie } from 'ng2-cookies/ng2-cookies';
 import { TrackingPage } from '../tracking/tracking';
+import { Subscription } from 'apollo-client/util/Observable';
 /**
  * Generated class for the ChildrenPage page.
  *
@@ -104,6 +105,7 @@ export class ChildrenPage {
   _moment: any
   _passengerRoutesData: Array<any>
   // loading: boolean
+  refreshNotification: Subscription
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams, private _util: UtilitiesProvider , private apollo: ApolloProvider,
@@ -115,6 +117,12 @@ export class ChildrenPage {
       this.passengerRoutes = []
       this._moment = moment
       this._passengerRoutesData = []
+      this.refreshNotification  = this._state.onRefresh().subscribe((refresh)=>{
+        if(refresh) {
+          this.loadPassengers()
+          this._state.disableRefresh()
+        }
+      })
   }
 
   ionViewDidLoad() {
@@ -122,11 +130,17 @@ export class ChildrenPage {
     this.loadPassengers()
   }
 
+  ionViewDidLeave(){
+    this.refreshNotification.unsubscribe()
+  }
+
   doRefresh(refresher) {
 
     this.loadPassengers()
     refresher.complete()
   }
+
+
 
   loadPassengers() {
     this._util.loading('')

@@ -19,7 +19,7 @@
 <ion-content class="main-bg">
     <ion-grid class="padding-left-20 padding-right-20" *ngIf="schoolData">
         <ion-row justify-content-center class="margin-top-40">
-            <img src="assets/img/Logo-black.png" class="contact-logo" />
+            <img *ngIf="logo | async" [src]="logo | async" class="contact-logo" />
         </ion-row>
         <ion-row class="margin-top-30 font-size-5-vw normal-text">
             <div>

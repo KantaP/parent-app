@@ -20,6 +20,7 @@ export class HomePage {
   setPasswordPage: any
   contactUsPage: any
   contackOptionPage: any
+  logo: Promise<string>
   constructor(public navCtrl: NavController, private _state: StateProvider, private _util: UtilitiesProvider ,
     private menu: MenuController , private push: Push) {
     this.rootPage = ChildrenPage
@@ -27,6 +28,7 @@ export class HomePage {
     this.setPasswordPage = SetPasswordPage
     this.contactUsPage = ContactUsPage
     this.contackOptionPage = ContactOptionPage
+    this.logo = this._util.getLogo()
   }
 
   ionViewDidLoad() {

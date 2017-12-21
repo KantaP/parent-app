@@ -6,6 +6,7 @@ import { StateProvider } from '../../providers/state/state';
 import { LoginPage } from '../login/login'
 import { ApolloProvider } from '../../providers/apollo/apollo';
 declare var globalToken;
+
 /**
  * Generated class for the SetPasswordPage page.
  *
@@ -21,6 +22,7 @@ export class SetPasswordPage {
 
   showMenuButton: boolean
   passwordForm : FormGroup
+  logo: Promise<string>
   constructor(public navCtrl: NavController, public navParams: NavParams ,
     private apollo: ApolloProvider, private _fb: FormBuilder , private _util: UtilitiesProvider, private _state: StateProvider) {
     this.passwordForm = this._fb.group({
@@ -36,6 +38,7 @@ export class SetPasswordPage {
       ])]
     })
     this.showMenuButton = false
+
   }
 
   ngAfterViewInit() {
@@ -43,6 +46,7 @@ export class SetPasswordPage {
     .then((data)=>{
       if(data != null) this.showMenuButton = true
     })
+    this.logo = this._util.getLogo()
   }
 
   ionViewDidLoad() {

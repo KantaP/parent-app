@@ -28,13 +28,13 @@
         </ion-row> -->
         <ion-grid class="padding-0" *ngFor="let item of items.passengers;let i = index">
             <ion-row [@fadeInAnimation]="" class="childList" (click)="toggleDetail(i)">
-                <ion-col class="text-align-right">
+                <ion-col col-2 class="text-align-right">
                     <ion-icon ios="ios-person" md="ios-person"></ion-icon>
                 </ion-col>
-                <ion-col class="text-align-center">
+                <ion-col col-8 class="text-align-left">
                     <div>{{item.first_name}} {{item.surname}}</div>
                 </ion-col>
-                <ion-col class="text-align-right">
+                <ion-col col-2 class="text-align-right">
                     <ion-icon class="margin-right-10" [ios]="arrowIcon[i]" [md]="arrowIcon[i]"></ion-icon>
                 </ion-col>
             </ion-row>

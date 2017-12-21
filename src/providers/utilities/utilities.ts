@@ -1,4 +1,6 @@
-import { PushOptions, PushObject , Push } from '@ionic-native/push';
+import { StateProvider } from './../state/state';
+import { Push } from '@ionic-native/push';
+import { File } from '@ionic-native/file';
 import { Injectable } from '@angular/core';
 import { AlertController, LoadingController, Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
@@ -23,7 +25,7 @@ export class UtilitiesProvider {
   private alertItem : any = null
   private loaderItem: any = null
   constructor(private alert: AlertController, private loader: LoadingController, private storage: Storage ,
-     private platform: Platform, private push: Push) {
+     private platform: Platform, private push: Push, private _state: StateProvider , private file : File) {
 
   }
 
@@ -114,7 +116,7 @@ export class UtilitiesProvider {
       console.warn('Push notifications not initialized. Cordova is not available - Run in physical device');
       return;
     }
-    const options: PushOptions = {
+    const options: any = {
       android: {},
       ios: {
         alert: 'true',
@@ -123,13 +125,26 @@ export class UtilitiesProvider {
       },
       windows: {}
     };
-    const pushObject: PushObject = this.push.init(options);
+    const pushObject: any = this.push.init(options);
 
     pushObject.on('notification').subscribe((data: any) => {
       console.log('message -> ' + data.message);
       console.log(data)
+      this._state.enableRefresh()
     });
 
     pushObject.on('error').subscribe(error => console.error('Error with Push plugin' + error));
+  }
+
+  getLogo() {
+    return new Promise<string>(async (resolve,reject)=>{
+      var data = await this.storage.get('userProfile')
+      if(data != null) {
+        if(this.platform.is('cordova')) resolve(this.file.externalDataDirectory + data.companiesLogo[0].companyName + '_school.jpg')
+        else resolve('assets/img/Logo-black.png')
+      }else{
+        resolve('assets/img/Logo-black.png')
+      }
+    })
   }
 }

@@ -6,10 +6,11 @@ import { StateProvider } from '../../providers/state/state';
 import { ApolloProvider } from '../../providers/apollo/apollo';
 import { HomePage } from '../home/home';
 import { RegisterPage } from '../register/register';
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import { Push, PushObject } from '@ionic-native/push';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 declare var globalToken;
+
 /**
  * Generated class for the LoginPage page.
  *
@@ -25,6 +26,7 @@ declare var globalToken;
 export class LoginPage {
 
   loginForm: FormGroup
+  logo: Promise<any>
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private _fb: FormBuilder, private _util: UtilitiesProvider, private _state: StateProvider ,
     private push: Push, private platform: Platform, private _apollo: ApolloProvider,
@@ -36,6 +38,7 @@ export class LoginPage {
       ],
       password: ['',Validators.required]
     })
+    this.logo = this._util.getLogo()
   }
 
   ionViewWillEnter() {
@@ -44,7 +47,7 @@ export class LoginPage {
 
   registerFCMToken() {
     return new Promise((resolve,reject)=>{
-      const options: PushOptions = {
+      const options: any = {
         android: {},
         ios: {
           alert: 'true',

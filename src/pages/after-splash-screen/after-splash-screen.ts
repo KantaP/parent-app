@@ -1,7 +1,6 @@
-import { PushObject, PushOptions, Push } from '@ionic-native/push';
 
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
 import { StateProvider } from '../../providers/state/state';
 import { LoginPage } from '../login/login';
@@ -24,9 +23,10 @@ declare var globalToken;
 })
 export class AfterSplashScreenPage {
 
-
+  logo: Promise<string>
   constructor(public navCtrl: NavController, public navParams: NavParams , private _util: UtilitiesProvider,
-    private _state: StateProvider , private platform: Platform, private push: Push, private _apollo: ApolloProvider) {
+    private _state: StateProvider , private _apollo: ApolloProvider) {
+      this.logo = this._util.getLogo()
   }
 
   ionViewDidLoad() {

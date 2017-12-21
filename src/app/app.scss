@@ -28,6 +28,10 @@ button {
     color: map-get($colors, 'dark');
 }
 
+.normal-text-light {
+    color: map-get($colors, 'light');
+}
+
 .main-bg {
     background-color: map-get($colors, 'light');
     // background-image: url('../assets/img/bg-old.png');

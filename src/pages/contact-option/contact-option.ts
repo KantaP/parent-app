@@ -1,10 +1,10 @@
+import { UtilitiesProvider } from './../../providers/utilities/utilities';
 import { ApolloProvider } from './../../providers/apollo/apollo';
 import { Component } from '@angular/core';
 import { NavController, NavParams, Platform } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 import 'rxjs/add/operator/toPromise';
-import { Push, PushOptions, PushObject } from '@ionic-native/push';
-import { UtilitiesProvider } from '../../providers/utilities/utilities';
+import { Push } from '@ionic-native/push';
 
 /**
  * Generated class for the ContactOptionPage page.
@@ -53,6 +53,7 @@ export class ContactOptionPage {
         this._util.initPushNotification()
       }
       loader.dismiss()
+      this._util.alertMessage('Result','Contact options updated')
     })
   }
 

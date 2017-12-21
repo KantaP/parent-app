@@ -299,7 +299,7 @@ export class ApolloProvider {
         }
       },
       update: (store) => {
-        const data = store.readQuery({ query: contactOptions });
+        let data = store.readQuery({ query: contactOptions });
         data['parentContactOptions'][key] = value;
         store.writeQuery({ query: contactOptions, data });
       }

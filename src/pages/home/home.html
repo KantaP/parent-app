@@ -5,7 +5,7 @@
         </ion-toolbar> -->
         <ion-grid>
             <ion-row>
-                <img src="assets/img/logo.png" style="height:200px" />
+                <img *ngIf="logo | async" [src]="logo | async" style="height:200px" />
             </ion-row>
         </ion-grid>
     </ion-header>
@@ -27,13 +27,12 @@
       Log Out
       </button>
         </ion-list>
-        <ion-grid class="padding-0">
-            <ion-row style="
-            position: absolute;
-            bottom: 10px;
-            align-self: center;
-        ">
+        <ion-grid class="padding-0" ion-fixed style="bottom:0px;">
+            <ion-row justify-content-center>
                 <img src="assets/img/ecm-logo.png" />
+            </ion-row>
+            <ion-row justify-content-end class="normal-text-light margin-top-5">
+                Version: T21D17T
             </ion-row>
         </ion-grid>
     </ion-content>

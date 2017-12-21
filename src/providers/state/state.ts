@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 /*
   Generated class for the StateProvider provider.
 
@@ -10,8 +11,10 @@ export class StateProvider {
 
   // private state:Subject<any>
   private state : any
+  private refresher: Subject<boolean>
   constructor() {
     this.state = {}
+    this.refresher = new Subject<boolean>()
     // this.state = new Subject<any>()
   }
 
@@ -26,6 +29,18 @@ export class StateProvider {
 
   public clearState() {
     this.state = {}
+  }
+
+  public enableRefresh() {
+    this.refresher.next(true)
+  }
+
+  public disableRefresh() {
+    this.refresher.next(false)
+  }
+
+  public onRefresh(){
+    return this.refresher.asObservable()
   }
 
 }

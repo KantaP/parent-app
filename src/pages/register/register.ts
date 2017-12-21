@@ -1,3 +1,4 @@
+
 import { LoginPage } from './../login/login';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup , Validators } from '@angular/forms';
@@ -7,6 +8,7 @@ import { StateProvider } from '../../providers/state/state';
 import { ApolloProvider } from '../../providers/apollo/apollo';
 import { OtpPage } from '../otp/otp';
 declare var globalToken;
+
 /**
  * Generated class for the RegisterPage page.
  *
@@ -22,18 +24,20 @@ export class RegisterPage {
   showBackButton: boolean
   canSkipRegistered: any
   registerForm : FormGroup
+  logo: Promise<string>
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private _fb: FormBuilder ,
     private util: UtilitiesProvider,
     private state: StateProvider,
-    private apollo: ApolloProvider) {
+    private apollo: ApolloProvider,
+    private _util: UtilitiesProvider) {
 
     this.registerForm = this._fb.group({
       email: ['', [Validators.required]]
     })
-
+    this.logo = this._util.getLogo()
 
     if(this.navCtrl.canGoBack()) this.showBackButton = true;
     else this.showBackButton = false;

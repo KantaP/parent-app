@@ -2,6 +2,7 @@ import { ApolloProvider } from './../../providers/apollo/apollo';
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { File } from '@ionic-native/file';
+import { UtilitiesProvider } from '../../providers/utilities/utilities';
 /**
  * Generated class for the ContactUsPage page.
  *
@@ -24,9 +25,11 @@ export class ContactUsPage {
 
   schoolData: SchoolData
   schoolLogo: string
-  constructor(public navCtrl: NavController, public navParams: NavParams, private _apollo: ApolloProvider, private file: File) {
+  logo: Promise<string>
+  constructor(public navCtrl: NavController, public navParams: NavParams, private _apollo: ApolloProvider, private file: File, private _util: UtilitiesProvider) {
     this.schoolData = {}
     this.schoolLogo = ""
+    this.logo = this._util.getLogo()
   }
 
   ionViewDidLoad() {

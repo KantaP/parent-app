@@ -16,7 +16,7 @@
 <ion-content class="main-bg">
     <ion-grid>
         <ion-row justify-content-center class="margin-top-40">
-            <img src="assets/img/Logo-black.png" class="main-logo" />
+            <img *ngIf="logo | async" [src]="logo | async" class="main-logo" />
         </ion-row>
         <form [formGroup]="loginForm" novalidate class="margin-top-20">
             <ion-row justify-content-center class="margin-top-15">
