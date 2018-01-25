@@ -35,8 +35,8 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
       //http://127.0.0.1:3000/graphql
-      //http://schoolsafe.sg.ecoachmanager.com/graphql
-      var http = httpLink.create({ uri: 'http://schoolsafe.sg.ecoachmanager.com/graphql' })
+      //http://montriwebservice.ecoachmanager.com/parent/graphql
+      var http = httpLink.create({ uri: 'http://montriwebservice.ecoachmanager.com/parent/graphql' })
 
       const errorLink = onError(({ graphQLErrors, networkError }) => {
         if (graphQLErrors)

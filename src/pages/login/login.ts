@@ -97,6 +97,10 @@ export class LoginPage {
               this._util.loaded()
               this.navCtrl.setRoot(HomePage)
             })
+            .catch((err)=>{
+              this._util.loaded()
+              this.navCtrl.setRoot(HomePage)
+            })
           }else{
             this._util.loaded()
             this.navCtrl.setRoot(HomePage)
@@ -124,7 +128,7 @@ export class LoginPage {
           resolve('download complete: ' + entry.toURL())
           console.log('download complete: ' + entry.toURL());
         }, (error) => {
-          reject(error)
+          resolve(error)
           console.log("error", "Error file transfert", error);
       });
     })
